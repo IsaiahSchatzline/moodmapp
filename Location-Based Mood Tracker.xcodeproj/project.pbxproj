@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0A2F0A82D1A4759003BF22A /* HalfASheet in Frameworks */ = {isa = PBXBuildFile; productRef = D0A2F0A72D1A4759003BF22A /* HalfASheet */; };
+		D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */; };
+		D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2712D17838C00D13B7D /* JournalEntries.swift */; };
+		D0CCF2742D178B0400D13B7D /* JournalPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2732D178B0300D13B7D /* JournalPage.swift */; };
+		D0CCF2782D17BBAE00D13B7D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2772D17BBAE00D13B7D /* Settings.swift */; };
+		D0CCF27A2D17BBBE00D13B7D /* MoodMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */; };
 		D0EAADAD2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */; };
 		D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAADAE2D160787001654F5 /* ContentView.swift */; };
 		D0EAADB12D160789001654F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0EAADB02D160789001654F5 /* Assets.xcassets */; };
@@ -14,11 +20,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		D0CCF2712D17838C00D13B7D /* JournalEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntries.swift; sourceTree = "<group>"; };
+		D0CCF2732D178B0300D13B7D /* JournalPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPage.swift; sourceTree = "<group>"; };
+		D0CCF2772D17BBAE00D13B7D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodMap.swift; sourceTree = "<group>"; };
 		D0EAADA92D160787001654F5 /* Location-Based Mood Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Location-Based Mood Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location_Based_Mood_TrackerApp.swift; sourceTree = "<group>"; };
 		D0EAADAE2D160787001654F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D0EAADB02D160789001654F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0EAADB32D160789001654F5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D0EAADBD2D163888001654F5 /* Location-Based-Mood-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Location-Based-Mood-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0A2F0A82D1A4759003BF22A /* HalfASheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,8 +64,14 @@
 		D0EAADAB2D160787001654F5 /* Location-Based Mood Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				D0EAADBD2D163888001654F5 /* Location-Based-Mood-Tracker-Info.plist */,
 				D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */,
 				D0EAADAE2D160787001654F5 /* ContentView.swift */,
+				D0CCF2732D178B0300D13B7D /* JournalPage.swift */,
+				D0CCF2712D17838C00D13B7D /* JournalEntries.swift */,
+				D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */,
+				D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */,
+				D0CCF2772D17BBAE00D13B7D /* Settings.swift */,
 				D0EAADB02D160789001654F5 /* Assets.xcassets */,
 				D0EAADB22D160789001654F5 /* Preview Content */,
 			);
@@ -83,6 +102,9 @@
 			dependencies = (
 			);
 			name = "Location-Based Mood Tracker";
+			packageProductDependencies = (
+				D0A2F0A72D1A4759003BF22A /* HalfASheet */,
+			);
 			productName = "Location-Based Mood Tracker";
 			productReference = D0EAADA92D160787001654F5 /* Location-Based Mood Tracker.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +133,9 @@
 				Base,
 			);
 			mainGroup = D0EAADA02D160787001654F5;
+			packageReferences = (
+				D0A2F0A62D1A4759003BF22A /* XCRemoteSwiftPackageReference "HalfASheet" */,
+			);
 			productRefGroup = D0EAADAA2D160787001654F5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,6 +162,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0CCF2782D17BBAE00D13B7D /* Settings.swift in Sources */,
+				D0CCF2742D178B0400D13B7D /* JournalPage.swift in Sources */,
+				D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */,
+				D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */,
+				D0CCF27A2D17BBBE00D13B7D /* MoodMap.swift in Sources */,
 				D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */,
 				D0EAADAD2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift in Sources */,
 			);
@@ -275,6 +305,8 @@
 				DEVELOPMENT_TEAM = 2G94952XK8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Location-Based-Mood-Tracker-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show the user location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +336,8 @@
 				DEVELOPMENT_TEAM = 2G94952XK8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Location-Based-Mood-Tracker-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show the user location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -344,6 +378,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D0A2F0A62D1A4759003BF22A /* XCRemoteSwiftPackageReference "HalfASheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/franklynw/HalfASheet.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D0A2F0A72D1A4759003BF22A /* HalfASheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0A2F0A62D1A4759003BF22A /* XCRemoteSwiftPackageReference "HalfASheet" */;
+			productName = HalfASheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D0EAADA12D160787001654F5 /* Project object */;
 }
