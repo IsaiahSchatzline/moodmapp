@@ -11,8 +11,10 @@
 		D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */; };
 		D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2712D17838C00D13B7D /* JournalEntries.swift */; };
 		D0CCF2742D178B0400D13B7D /* JournalPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2732D178B0300D13B7D /* JournalPage.swift */; };
-		D0CCF2782D17BBAE00D13B7D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2772D17BBAE00D13B7D /* Settings.swift */; };
 		D0CCF27A2D17BBBE00D13B7D /* MoodMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */; };
+		D0DFEAB12D1F1A3F000EA52A /* MoodSwings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DFEAB02D1F1A3F000EA52A /* MoodSwings.swift */; };
+		D0DFEAB82D1F49C7000EA52A /* MapStyleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DFEAB72D1F49C7000EA52A /* MapStyleConfig.swift */; };
+		D0DFEABC2D1F4B7F000EA52A /* MapStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DFEABB2D1F4B7F000EA52A /* MapStyleView.swift */; };
 		D0EAADAD2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */; };
 		D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAADAE2D160787001654F5 /* ContentView.swift */; };
 		D0EAADB12D160789001654F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0EAADB02D160789001654F5 /* Assets.xcassets */; };
@@ -23,8 +25,10 @@
 		D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D0CCF2712D17838C00D13B7D /* JournalEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntries.swift; sourceTree = "<group>"; };
 		D0CCF2732D178B0300D13B7D /* JournalPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPage.swift; sourceTree = "<group>"; };
-		D0CCF2772D17BBAE00D13B7D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodMap.swift; sourceTree = "<group>"; };
+		D0DFEAB02D1F1A3F000EA52A /* MoodSwings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodSwings.swift; sourceTree = "<group>"; };
+		D0DFEAB72D1F49C7000EA52A /* MapStyleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyleConfig.swift; sourceTree = "<group>"; };
+		D0DFEABB2D1F4B7F000EA52A /* MapStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyleView.swift; sourceTree = "<group>"; };
 		D0EAADA92D160787001654F5 /* Location-Based Mood Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Location-Based Mood Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location_Based_Mood_TrackerApp.swift; sourceTree = "<group>"; };
 		D0EAADAE2D160787001654F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +49,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D0DFEAB32D1F4930000EA52A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				D0CCF2712D17838C00D13B7D /* JournalEntries.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		D0DFEAB42D1F4955000EA52A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D0DFEAB52D1F4977000EA52A /* App View */ = {
+			isa = PBXGroup;
+			children = (
+				D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */,
+			);
+			path = "App View";
+			sourceTree = "<group>";
+		};
+		D0DFEAB62D1F4999000EA52A /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */,
+				D0DFEAB72D1F49C7000EA52A /* MapStyleConfig.swift */,
+				D0DFEABB2D1F4B7F000EA52A /* MapStyleView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		D0EAADA02D160787001654F5 = {
 			isa = PBXGroup;
 			children = (
@@ -65,13 +103,13 @@
 			isa = PBXGroup;
 			children = (
 				D0EAADBD2D163888001654F5 /* Location-Based-Mood-Tracker-Info.plist */,
-				D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */,
+				D0DFEAB52D1F4977000EA52A /* App View */,
 				D0EAADAE2D160787001654F5 /* ContentView.swift */,
 				D0CCF2732D178B0300D13B7D /* JournalPage.swift */,
-				D0CCF2712D17838C00D13B7D /* JournalEntries.swift */,
-				D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */,
-				D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */,
-				D0CCF2772D17BBAE00D13B7D /* Settings.swift */,
+				D0DFEAB62D1F4999000EA52A /* Map */,
+				D0DFEAB02D1F1A3F000EA52A /* MoodSwings.swift */,
+				D0DFEAB42D1F4955000EA52A /* Services */,
+				D0DFEAB32D1F4930000EA52A /* Data */,
 				D0EAADB02D160789001654F5 /* Assets.xcassets */,
 				D0EAADB22D160789001654F5 /* Preview Content */,
 			);
@@ -162,12 +200,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0CCF2782D17BBAE00D13B7D /* Settings.swift in Sources */,
 				D0CCF2742D178B0400D13B7D /* JournalPage.swift in Sources */,
 				D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */,
 				D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */,
 				D0CCF27A2D17BBBE00D13B7D /* MoodMap.swift in Sources */,
+				D0DFEAB82D1F49C7000EA52A /* MapStyleConfig.swift in Sources */,
+				D0DFEAB12D1F1A3F000EA52A /* MoodSwings.swift in Sources */,
 				D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */,
+				D0DFEABC2D1F4B7F000EA52A /* MapStyleView.swift in Sources */,
 				D0EAADAD2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,19 +14,26 @@ struct MoodMap: View {
 
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var selectedMoodID: PersistentIdentifier?
+    @State private var mapStyleConfig = MapStyleConfig()
+    @State private var pickMapStyle = false
+    @Namespace private var mapScope
 
     var body: some View {
         NavigationStack {
             ZStack {
-                Map(position: $position, selection: $selectedMoodID) {
+                Map(position: $position, selection: $selectedMoodID, scope: mapScope) {
                     ForEach(journalEntries, id: \.id) { entry in
                         Group {
                             if let moodPin = entry.moodPinLocation {
                                 if entry.moodPinLocation != nil {
                                     Marker(coordinate: moodPin) {
-                                        Label(entry.moodTitle, systemImage: "book.circle.fill")
+                                        Label {
+                                            Text(entry.moodTitle)
+                                        } icon: {
+                                            Text(Emoji(rawValue: entry.emoji)?.rawValue ?? Emoji.content.rawValue) // Display the emoji
+                                        }
                                     }
-                                    .tint(.yellow)
+                                    .tint(Color(red: 0.58, green: 0.86, blue: 0.97))
                                 } else {
                                     Marker(entry.moodTitle, coordinate: moodPin)
                                 }
@@ -34,10 +41,10 @@ struct MoodMap: View {
                         }.tag(entry)
                     }
                 }
-                .mapStyle(.standard(elevation: .realistic))
+                
+                .mapStyle(mapStyleConfig.mapStyle)
                 .mapControls {
-                    MapUserLocationButton()
-                    MapPitchToggle()
+                    MapScaleView()
                 }
                 .sheet(item: $selectedMoodID) { selectedMoodID in
                     // Find the selected journal entry by its ID
@@ -54,6 +61,33 @@ struct MoodMap: View {
             .navigationTitle("moodmapp")
             .toolbarBackground(.hidden, for: .navigationBar)
         }
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                Spacer()
+                VStack {
+                    MapCompass(scope: mapScope)
+                    Button {
+                        pickMapStyle.toggle()
+                    } label: {
+                        Image(systemName: "globe.americas.fill")
+                            .imageScale(.large)
+                    }
+                    .padding(8)
+                    .background(.thickMaterial)
+                    .clipShape(.circle)
+                    .sheet(isPresented: $pickMapStyle) {
+                        MapStyleView(mapStyleConfig: $mapStyleConfig)
+                            .presentationDetents([.height(275)])
+                    }
+                    MapUserLocationButton(scope: mapScope)
+                    MapPitchToggle(scope: mapScope)
+                        .mapControlVisibility(.visible)
+                }
+                .padding()
+                .buttonBorderShape(.circle)
+            }
+        }
+        .mapScope(mapScope)
     }
 
     private func fetchEntries() {
@@ -66,17 +100,6 @@ struct MoodMap: View {
         }
     }
 }
-/*struct LocationDetailView: View {
-    @Environment(\.dismiss) private var dismiss
-    var moodPinLocation: Destination?
-    var selectedMoodID: PersistentIdentifier?
-    
-    @State private var moodTitle = ""
-    @State private var address = ""
-    var body: some View {
-        
-    }
-}*/
 #Preview {
     MoodMap()
 }

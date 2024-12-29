@@ -11,41 +11,60 @@ import MapKit
 
 struct JournalPage: View {
     @Environment(\.modelContext) var context
-    @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]  // Query to fetch all journal entries
+    @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
     @State private var entryToEdit: JournalEntries?
+    @State private var searchText: String = ""
+
+    var filteredEntries: [JournalEntries] {
+        if searchText.isEmpty {
+            return entries
+        } else {
+            return entries.filter { entry in
+                entry.moodTitle.lowercased().contains(searchText.lowercased()) ||
+                entry.emoji.contains(searchText) ||
+                "\(entry.moodRating)".contains(searchText) ||
+                dateFormatter.string(from: entry.dateOfEntry).contains(searchText)
+            }
+        }
+    }
 
     var body: some View {
         NavigationView {
             VStack {
-                Text("Mood Journal")
-                    .font(.title)
-                    .padding()
-
                 Text("This is where you can view or add journal entries.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding()
 
+                // Search bar
+                TextField("Search moods...", text: $searchText)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .frame(maxWidth: 300)
+                    .background(.white)
+                    .clipShape(Capsule())
+                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0.0, y: 10)
+                    .padding()
+
                 // List of Journal Entries
                 List {
-                    ForEach (entries) { entry in
+                    ForEach(filteredEntries) { entry in
                         EntryCell(entry: entry)
                             .onTapGesture {
                                 entryToEdit = entry
                             }
-                        .padding()
+                            .padding()
                     }
                     .onDelete { indexSet in
                         for index in indexSet {
                             context.delete(entries[index])
                         }
                     }
-                    .listStyle(PlainListStyle()) // Plain list style for entries
                 }
+                .listStyle(PlainListStyle())
             }
-            .navigationTitle("Mood Journal")
-            .sheet(item: $entryToEdit) { entry in ViewEntry(entry: entry)
-            }
+            .navigationTitle("moodjournal")
+            .sheet(item: $entryToEdit) { entry in ViewEntry(entry: entry) }
         }
     }
 }
@@ -88,13 +107,15 @@ struct EntryCell: View {
 }
 
 struct ViewEntry: View {
+    
     enum emoji: String, CaseIterable {
-        case 🥰, 😂, 🤪, 😀, 😎, 😕, 😔, 🥺, 😓, 😡
+        case happy = "😊", joyful = "😄", excited = "🤩", content = "🙂", calm = "😌", relaxed = "🧘‍♀️", proud = "😎", hopeful = "🌟", grateful = "🙏", cheerful = "😁"
+        case sad = "😢", anxious = "😰", angry = "😡", irritable = "😤", depressed = "😞", frustrated = "😩", guilty = "😔", ashamed = "😳", lonely = "😕", hopeless = "😖"
+        case indifferent = "😐", confused = "🤔", nostalgic = "🥺", curious = "🤨", reflective = "🤯", tense = "😬", tired = "😴", bored = "😒", distracted = "😵", stressed = "😫"
     }
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) private var dismiss
     @Bindable var entry: JournalEntries
-    //@ObservedObject var locationManager = LocationManager()
     @State var moodRating: Int = 5
     @State var dateOfEntry: Date = .now
     @State var entryThoughts: String = ""
@@ -102,9 +123,7 @@ struct ViewEntry: View {
     @State var updatedThoughts: String = ""
     @State var moodBar: Double = 5.0
     @State var showingCancelAlert: Bool = false
-    //@State var latitude: Double? = 0.0
-    //@State var longitude: Double? = 0.0
-    @State var selectedEmoji: emoji = .😀
+    @State var selectedEmoji: emoji = emoji.content
     
     var body: some View {
         NavigationStack {
@@ -125,11 +144,15 @@ struct ViewEntry: View {
                 HStack {
                     Text("Mood:")
                     Spacer()
-                    Picker("", selection: $selectedEmoji) {
+                    Picker("", selection: Binding(
+                        get: { emoji(rawValue: entry.emoji) ?? emoji.content }, // Convert emoji string to enum
+                        set: { entry.emoji = $0.rawValue } // Update entry.emoji with the new value
+                    )) {
                         ForEach(emoji.allCases, id: \.self) { emoji in
                             Text(emoji.rawValue)
                         }
                     }
+                    
             }
 
             // Mood Rating - Use a Slider or Stepper instead of TextField for Int
@@ -149,15 +172,15 @@ struct ViewEntry: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     Button("Cancel") { dismiss()
-                        /* let hasUnsavedChanges =
-                                                     entry.moodRating != moodRating ||
-                                                     entry.dateOfEntry != dateOfEntry ||
-                                                     entry.entryThoughts != entryThoughts
+                         let hasUnsavedChanges =
+                                 entry.moodRating != moodRating ||
+                                 entry.dateOfEntry != dateOfEntry ||
+                                 entry.entryThoughts != entryThoughts
 
-                                                 if hasUnsavedChanges {
-                                                     showingCancelAlert = true
-                                                 } else {
-                                                     dismiss()
+                             if hasUnsavedChanges {
+                                 showingCancelAlert = true
+                             } else {
+                                 dismiss()
                          }
                      }
                      .confirmationDialog("You have unsaved changes", isPresented: $showingCancelAlert) {
@@ -168,7 +191,7 @@ struct ViewEntry: View {
                                      Button("Keep Editing", role: .cancel) { }
                                  } message: {
                                      Text("You have unsaved changes. Are you sure you want to discard them?")
-                                 */}
+                                 }
                 }
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
