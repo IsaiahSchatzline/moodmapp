@@ -31,14 +31,16 @@ struct JournalPage: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("This is where you can view or add journal entries.")
+                Text("search by title, emoji, rating, date, or time.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding()
 
                 // Search bar
-                TextField("Search moods...", text: $searchText)
+                TextField("search moods...", text: $searchText)
                     .multilineTextAlignment(.center)
+                    .font(.title2)
+                    .bold()
                     .padding()
                     .frame(maxWidth: 300)
                     .background(.white)
@@ -60,11 +62,28 @@ struct JournalPage: View {
                             context.delete(entries[index])
                         }
                     }
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(white: 1, opacity: 0.8))
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 20)
+                    )
+                    .listRowSeparator(.hidden)
                 }
-                .listStyle(PlainListStyle())
+                .listRowInsets(.init(top: 0, leading: 40, bottom: 0, trailing: 40))
+                
             }
             .navigationTitle("moodjournal")
-            .sheet(item: $entryToEdit) { entry in ViewEntry(entry: entry) }
+            .sheet(item: $entryToEdit) { entry in ViewEntry(entry: entry, hideMapButton: false) }
+            .scrollContentBackground(.hidden)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [Color(red: 0.953, green: 0.506, blue: 0.506), Color.white]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                )
         }
     }
 }
@@ -75,25 +94,26 @@ struct EntryCell: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(dateFormatter.string(from: entry.dateOfEntry)) // Display the date
-                .font(.body)
-                .padding(.bottom, 5)
             Text(entry.moodTitle) // Display the thoughts
-                .font(.body)
+                .font(.title.bold())
                 .padding(.bottom, 5)
             HStack {
                 Text(entry.emoji)
-                    .font(.subheadline)
-                Text("Mood: \(entry.moodRating)") // Display the mood rating
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .font(.title2)
+                Text("\(entry.moodRating)") // Display the mood rating
+                    .font(.title2)
+                    .foregroundStyle(.black)
             }
+            .padding(.bottom, 5)
+            Text(dateFormatter.string(from: entry.dateOfEntry)) // Display the date
+                .font(.subheadline)
+                .foregroundStyle(.black)
             
             if let latitude = entry.latitude, let longitude = entry.longitude {
-                Text("Latitude: \(latitude)")
+                Text("latitude: \(latitude)")
                     .font(.caption)
                     .foregroundColor(.black)
-                Text("Longitude: \(longitude)")
+                Text("longitude: \(longitude)")
                     .font(.caption)
                     .foregroundColor(.black)
             } else {
@@ -124,83 +144,76 @@ struct ViewEntry: View {
     @State var moodBar: Double = 5.0
     @State var showingCancelAlert: Bool = false
     @State var selectedEmoji: emoji = emoji.content
+    @State private var showingMap = false
+    var hideMapButton: Bool
     
     var body: some View {
         NavigationStack {
             Form {
                 HStack {
-                    Text("Mood Title:")
+                    Text("mood title:")
                     Spacer()
                     TextField("", text: $entry.moodTitle)
                 }
                 HStack {
-                    Text("Mood Date:")
+                    Text("mood date:")
                     Spacer()
                     DatePicker("", selection: $entry.dateOfEntry)
                 }
                 
                 
-                // FIX THE EMOJI CODE
+                
                 HStack {
-                    Text("Mood:")
+                    Text("mood:")
                     Spacer()
                     Picker("", selection: Binding(
-                        get: { emoji(rawValue: entry.emoji) ?? emoji.content }, // Convert emoji string to enum
-                        set: { entry.emoji = $0.rawValue } // Update entry.emoji with the new value
+                        get: { Emoji(rawValue: entry.emoji) ?? .happy },
+                        set: { entry.emoji = $0.rawValue }
                     )) {
-                        ForEach(emoji.allCases, id: \.self) { emoji in
-                            Text(emoji.rawValue)
+                        ForEach(Emoji.allCases, id: \.self) { moodEmoji in
+                            Text(moodEmoji.combinedEmojiDisplay)
                         }
                     }
-                    
-            }
-
-            // Mood Rating - Use a Slider or Stepper instead of TextField for Int
-            HStack {
-                Text("Mood Rating: \(entry.moodRating)")
-                Spacer()
-                Stepper("", value: $entry.moodRating, in: 0...10)
-            }
-
-            // Thoughts - TextField for user input
+                    .pickerStyle(MenuPickerStyle()) // Compact display
+                    .accentColor(.black)
+                }
+                
+                
+                
+                // Mood Rating - Use a Slider or Stepper instead of TextField for Int
+                HStack {
+                    Text("mood rating: \(entry.moodRating)")
+                    Spacer()
+                    Stepper("", value: $entry.moodRating, in: 1...10)
+                }
+                
+                // Thoughts - TextField for user input
                 Section("thoughts") {
                     TextField("thoughts", text: $entry.entryThoughts, axis: .vertical)
                 }
-        }
-            .navigationTitle("Mood Entry")
+            }
+            VStack {
+                if !hideMapButton {
+                    // NavigationLink to navigate directly to MoodMap
+                    NavigationLink(destination: MoodMap(journalEntry: entry)) {
+                        Text("view on map")
+                            .font(.headline)
+                            .foregroundStyle(.blue)
+                    }
+                }
+            }
+            .navigationTitle("mood entry")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItemGroup(placement: .topBarLeading) {
-                    Button("Cancel") { dismiss()
-                         let hasUnsavedChanges =
-                                 entry.moodRating != moodRating ||
-                                 entry.dateOfEntry != dateOfEntry ||
-                                 entry.entryThoughts != entryThoughts
-
-                             if hasUnsavedChanges {
-                                 showingCancelAlert = true
-                             } else {
-                                 dismiss()
-                         }
-                     }
-                     .confirmationDialog("You have unsaved changes", isPresented: $showingCancelAlert) {
-                         Button("Discard Changes", role: .destructive, action: dismiss.callAsFunction)
-                     }
-                     .alert("Unsaved Changes", isPresented: $showingCancelAlert) {
-                                     Button("Discard Changes", role: .destructive) { dismiss() }
-                                     Button("Keep Editing", role: .cancel) { }
-                                 } message: {
-                                     Text("You have unsaved changes. Are you sure you want to discard them?")
-                                 }
-                }
-                
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button("Save") { dismiss() }
-                    }
+                    Button("close") { dismiss() }
                 }
             }
         }
     }
+}
+
+
 
 
 

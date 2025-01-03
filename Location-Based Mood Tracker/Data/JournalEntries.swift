@@ -12,6 +12,7 @@ import MapKit
 @Model
 class JournalEntries: Identifiable {
     
+    
     var moodTitle: String
     var moodRating: Int
     var entryThoughts: String
@@ -19,7 +20,34 @@ class JournalEntries: Identifiable {
     var dateOfEntry = Date()
     var latitude: CLLocationDegrees?
     var longitude: CLLocationDegrees?
+    var combinedEmojiDisplay: String {
+        // Return the saved emoji or a fallback value if empty
+        return emoji.isEmpty ? "😊" : emoji
+    }
     
+    // Dictionary to hold mood rating counts
+    static var moodRatingCount: [Int: Int] = [:] // Keeps track of counts for each mood rating (1-10)
+    
+    // Filter out entries older than 30 days
+    static func filterEntriesWithin30Days(entries: [JournalEntries]) -> [JournalEntries] {
+        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+        return entries.filter { $0.dateOfEntry >= thirtyDaysAgo }
+    }
+
+    // Update mood counts
+    static func updateMoodRatingCount(entry: JournalEntries) {
+        let calendar = Calendar.current
+        let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: Date())!
+        
+        // Only update counts for entries within the last 30 days
+        if entry.dateOfEntry >= thirtyDaysAgo {
+            let rating = entry.moodRating
+            // Increment the count for the selected mood rating
+            moodRatingCount[rating, default: 0] += 1
+        }
+    }
+
+
     
     var moodPinLocation: CLLocationCoordinate2D? {
             guard let lat = latitude, let lon = longitude else {

@@ -17,36 +17,36 @@ enum Emoji: String, CaseIterable {
     
     var moodWord: String {
         switch self {
-        case .happy: return "Happy"
-        case .joyful: return "Joyful"
-        case .excited: return "Excited"
-        case .content: return "Content"
-        case .calm: return "Calm"
-        case .relaxed: return "Relaxed"
-        case .proud: return "Proud"
-        case .hopeful: return "Hopeful"
-        case .grateful: return "Grateful"
-        case .cheerful: return "Cheerful"
-        case .sad: return "Sad"
-        case .anxious: return "Anxious"
-        case .angry: return "Angry"
-        case .irritable: return "Irritable"
-        case .depressed: return "Depressed"
-        case .frustrated: return "Frustrated"
-        case .guilty: return "Guilty"
-        case .ashamed: return "Ashamed"
-        case .lonely: return "Lonely"
-        case .hopeless: return "Hopeless"
-        case .indifferent: return "Indifferent"
-        case .confused: return "Confused"
-        case .nostalgic: return "Nostalgic"
-        case .curious: return "Curious"
-        case .reflective: return "Reflective"
-        case .tense: return "Tense"
-        case .tired: return "Tired"
-        case .bored: return "Bored"
-        case .distracted: return "Distracted"
-        case .stressed: return "Stressed"
+        case .happy: return "happy"
+        case .joyful: return "joyful"
+        case .excited: return "excited"
+        case .content: return "content"
+        case .calm: return "calm"
+        case .relaxed: return "relaxed"
+        case .proud: return "proud"
+        case .hopeful: return "hopeful"
+        case .grateful: return "grateful"
+        case .cheerful: return "cheerful"
+        case .sad: return "sad"
+        case .anxious: return "anxious"
+        case .angry: return "angry"
+        case .irritable: return "irritable"
+        case .depressed: return "depressed"
+        case .frustrated: return "frustrated"
+        case .guilty: return "guilty"
+        case .ashamed: return "ashamed"
+        case .lonely: return "lonely"
+        case .hopeless: return "hopeless"
+        case .indifferent: return "indifferent"
+        case .confused: return "confused"
+        case .nostalgic: return "nostalgic"
+        case .curious: return "curious"
+        case .reflective: return "reflective"
+        case .tense: return "tense"
+        case .tired: return "tired"
+        case .bored: return "bored"
+        case .distracted: return "distracted"
+        case .stressed: return "stressed"
         }
     }
     var combinedEmojiDisplay: String {
@@ -62,26 +62,26 @@ struct ContentView: View {
         TabView {
             newMood()
                 .tabItem {
-                    Image(systemName: "pencil")
-                    Text("new mood")
+                    Image(systemName: "applepencil")
+                    Text("New Mood")
                 }
             
             JournalPage()
                 .tabItem {
                     Image(systemName: "book")
-                    Text("mood journal")
+                    Text("Mood Journal")
                 }
             
             MoodMap()
                 .tabItem {
                     Image(systemName: "map")
-                    Text("mood mapp")
+                    Text("Mood Map")
                 }
             
             MoodSwings()
                 .tabItem {
-                    Image(systemName: "chart.bar.xaxis")
-                    Text("mood swings")
+                    Image(systemName: "chart.pie.fill")
+                    Text("Mood Swings")
                 }
         }
         .onAppear {
@@ -105,14 +105,14 @@ struct newMood: View {
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State var latitude: CLLocationDegrees? = 0.0
     @State var longitude: CLLocationDegrees? = 0.0
+    let titleCharacterLimt = 50
     
     var body: some View {
         ZStack {
             // Background Gradient
             NavigationView {
                 LinearGradient(
-                    gradient: Gradient(colors: [Color(red: 0.58, green: 0.86, blue: 0.97), Color.white
-                                                   ]),
+                    gradient: Gradient(colors: [Color(red: 0.569, green: 0.788, blue: 0.969), Color.white]),
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -126,6 +126,7 @@ struct newMood: View {
                 TextField("mood title", text: $moodTitle)
                     .multilineTextAlignment(.center)
                     .font(.title2)
+                    .bold()
                     .padding()
                     .frame(maxWidth: 300)
                     .background(.white)
@@ -133,6 +134,13 @@ struct newMood: View {
                     .shadow(color: .black.opacity(0.3), radius: 10, x: 0.0, y: 10)
                     .padding()
                     .offset(x: 0, y: 175)
+                    .onChange(of: moodTitle) { newValue in
+                        if newValue.count > titleCharacterLimt {
+                            moodTitle = String(newValue.prefix(titleCharacterLimt))
+                        }
+                    }
+                    .lineLimit(1)
+                    .truncationMode(.tail)
                     
                 Spacer()
                 Spacer()
@@ -143,21 +151,30 @@ struct newMood: View {
             VStack {
                 Text("mood: \(Int(moodBar))")
                     .font(.system(size:24))
+                    .bold()
                     .shadow(color: .black.opacity(0.3), radius: 10, x: 0.0, y: 10)
                     .offset(x: 0, y: 25)
-                Slider(value: $moodBar, in: 0...10, step: 1)
+                Slider(value: $moodBar, in: 1...10, step: 1)
                     .accentColor(.white)
                     .shadow(color: .black.opacity(0.3), radius: 10, x: 0.0, y: 10)
                     .offset(x: 0, y: 50)
                 
-                
-                Button("thoughts...") {
+                Button(action: {
                     isShowing.toggle()
+                }) {
+                    Text("thoughts...")
+                        .italic()
+                        .font(.headline)
+                        .foregroundColor(Color(UIColor.lightGray))
+                        .padding()
                 }
-                .padding(40)
-                .foregroundColor(.black)
-                .background(Color.white)
-                .clipShape(Circle())
+                .background(
+                    Image(systemName: "bubble.fill") // SF Symbol
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 125, height: 100) // Size of the background symbol
+                        .foregroundColor(.white) // Color of the SF Symbol
+                )
                 .shadow(color: .black.opacity(0.3), radius: 10, x: 0.0, y: 10)
                 .offset(x: -100, y: 125)
                 
@@ -171,39 +188,19 @@ struct newMood: View {
                     }
                 }
                 .scaleEffect(1.5)
-                .offset(x: 75, y: 50)
+                .bold()
+                .offset(x: 100, y: 75)
                 .accentColor(.black)
                 
+                //Submit Button
+                SwipableButtonView(moodTitle: $moodTitle, selectedEmoji: $selectedEmoji, moodBar: $moodBar, entry: $entry)
                 
-                    
-                // Thoughts
-                        
-                /*TextField("thoughts...", text: $entry)
-                    .padding()
-                    .frame(maxWidth: 300)
-                    .background(.white)
-                    .clipShape(Capsule())
-                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0.0, y: 10)
-                    .padding()
-                    .offset(x: 0, y: 175)*/
-                
-                    //Submit Button
-                Button("submit") {
-                    submitEntry()
-                }
-                    .padding(25)
-                    .foregroundColor(.black)
-                    .background(Color.white)
-                    .clipShape(Circle())
-                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0.0, y: 10)
-                    .offset(x: 130, y: 175)
             }
             HalfASheet(isPresented: $isShowing, title: "mood thoughts") {
                 VStack {
                     Form {
                         TextField("thoughts...", text: $entry, axis: .vertical)
                             .lineLimit(14, reservesSpace: true)
-                            
                     }
                     
                 }
@@ -215,23 +212,6 @@ struct newMood: View {
         }
         .ignoresSafeArea()
     }
-    
-    func submitEntry() { // PREVIEW CRASH?
-    
-        let newEntry = JournalEntries(moodTitle: moodTitle, entryThoughts: entry, emoji: selectedEmoji.rawValue, dateOfEntry: Date(), moodRating: Int(moodBar), latitude: locationManager.currentLocation?.coordinate.latitude, longitude: locationManager.currentLocation?.coordinate.longitude)
-        do {
-                context.insert(newEntry) // Add the entry to the context
-                try context.save()       // Save the context to persist data
-            } catch {
-                print("Failed to save entry: \(error.localizedDescription)")
-            }
-        
-        moodTitle = ""
-        entry = ""
-        moodBar = 5.0
-        selectedEmoji = .content
-        print((latitude: locationManager.currentLocation?.coordinate.latitude, longitude: locationManager.currentLocation?.coordinate.longitude))
-        }
 }
 
 #Preview {

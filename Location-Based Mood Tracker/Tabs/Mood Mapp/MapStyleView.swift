@@ -33,7 +33,6 @@ struct MapStyleView: View {
                             Text("All").tag(MapStyleConfig.MapPOI.all)
                         }
                     }
-                    Toggle("Show Traffic", isOn: $mapStyleConfig.showTraffic)
                 }
                 Button("Ok") {
                     dismiss()

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00304C22D267445003E2E0F /* SwipableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00304C12D267445003E2E0F /* SwipableButtonView.swift */; };
+		D06E8B732D246272003A6400 /* MoodScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E8B722D246272003A6400 /* MoodScore.swift */; };
+		D06E8B752D2462CB003A6400 /* MoodRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E8B742D2462CB003A6400 /* MoodRing.swift */; };
+		D06E8B792D2463D2003A6400 /* ThirtyDayRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E8B782D2463D2003A6400 /* ThirtyDayRating.swift */; };
+		D06E8B7D2D246678003A6400 /* MoodStreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E8B7C2D246678003A6400 /* MoodStreak.swift */; };
+		D06E8B7F2D24B625003A6400 /* MoodRingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E8B7E2D24B625003A6400 /* MoodRingBackground.swift */; };
 		D0A2F0A82D1A4759003BF22A /* HalfASheet in Frameworks */ = {isa = PBXBuildFile; productRef = D0A2F0A72D1A4759003BF22A /* HalfASheet */; };
 		D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */; };
 		D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2712D17838C00D13B7D /* JournalEntries.swift */; };
@@ -19,9 +25,19 @@
 		D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAADAE2D160787001654F5 /* ContentView.swift */; };
 		D0EAADB12D160789001654F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0EAADB02D160789001654F5 /* Assets.xcassets */; };
 		D0EAADB42D160789001654F5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0EAADB32D160789001654F5 /* Preview Assets.xcassets */; };
+		D0FC66F62D2788F000F1E979 /* CurvedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FC66F52D2788F000F1E979 /* CurvedText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D00304C12D267445003E2E0F /* SwipableButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipableButtonView.swift; sourceTree = "<group>"; };
+		D0437D472D272829004E9E27 /* TGFlingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGFlingActionButton.swift; sourceTree = "<group>"; };
+		D0437D482D272829004E9E27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D0437D492D272829004E9E27 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		D06E8B722D246272003A6400 /* MoodScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScore.swift; sourceTree = "<group>"; };
+		D06E8B742D2462CB003A6400 /* MoodRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodRing.swift; sourceTree = "<group>"; };
+		D06E8B782D2463D2003A6400 /* ThirtyDayRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirtyDayRating.swift; sourceTree = "<group>"; };
+		D06E8B7C2D246678003A6400 /* MoodStreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodStreak.swift; sourceTree = "<group>"; };
+		D06E8B7E2D24B625003A6400 /* MoodRingBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodRingBackground.swift; sourceTree = "<group>"; };
 		D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D0CCF2712D17838C00D13B7D /* JournalEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntries.swift; sourceTree = "<group>"; };
 		D0CCF2732D178B0300D13B7D /* JournalPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPage.swift; sourceTree = "<group>"; };
@@ -34,7 +50,7 @@
 		D0EAADAE2D160787001654F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D0EAADB02D160789001654F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0EAADB32D160789001654F5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D0EAADBD2D163888001654F5 /* Location-Based-Mood-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Location-Based-Mood-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
+		D0FC66F52D2788F000F1E979 /* CurvedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurvedText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +65,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D0437D3E2D2726E7004E9E27 /* New Mood */ = {
+			isa = PBXGroup;
+			children = (
+				D0EAADAE2D160787001654F5 /* ContentView.swift */,
+				D00304C12D267445003E2E0F /* SwipableButtonView.swift */,
+			);
+			path = "New Mood";
+			sourceTree = "<group>";
+		};
+		D0437D3F2D2726FD004E9E27 /* Mood Journal */ = {
+			isa = PBXGroup;
+			children = (
+				D0CCF2732D178B0300D13B7D /* JournalPage.swift */,
+			);
+			path = "Mood Journal";
+			sourceTree = "<group>";
+		};
+		D0437D462D272829004E9E27 /* TGFlingActionButton */ = {
+			isa = PBXGroup;
+			children = (
+				D0437D492D272829004E9E27 /* LICENSE */,
+				D0437D482D272829004E9E27 /* README.md */,
+				D0437D472D272829004E9E27 /* TGFlingActionButton.swift */,
+			);
+			path = TGFlingActionButton;
+			sourceTree = "<group>";
+		};
+		D04B281C2D21E2F40092673A /* Mood Swings */ = {
+			isa = PBXGroup;
+			children = (
+				D0DFEAB02D1F1A3F000EA52A /* MoodSwings.swift */,
+				D06E8B7C2D246678003A6400 /* MoodStreak.swift */,
+				D06E8B722D246272003A6400 /* MoodScore.swift */,
+				D06E8B742D2462CB003A6400 /* MoodRing.swift */,
+				D06E8B7E2D24B625003A6400 /* MoodRingBackground.swift */,
+				D0FC66F52D2788F000F1E979 /* CurvedText.swift */,
+				D06E8B782D2463D2003A6400 /* ThirtyDayRating.swift */,
+			);
+			path = "Mood Swings";
+			sourceTree = "<group>";
+		};
 		D0DFEAB32D1F4930000EA52A /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,14 +130,14 @@
 			path = "App View";
 			sourceTree = "<group>";
 		};
-		D0DFEAB62D1F4999000EA52A /* Map */ = {
+		D0DFEAB62D1F4999000EA52A /* Mood Mapp */ = {
 			isa = PBXGroup;
 			children = (
 				D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */,
 				D0DFEAB72D1F49C7000EA52A /* MapStyleConfig.swift */,
 				D0DFEABB2D1F4B7F000EA52A /* MapStyleView.swift */,
 			);
-			path = Map;
+			path = "Mood Mapp";
 			sourceTree = "<group>";
 		};
 		D0EAADA02D160787001654F5 = {
@@ -102,15 +159,11 @@
 		D0EAADAB2D160787001654F5 /* Location-Based Mood Tracker */ = {
 			isa = PBXGroup;
 			children = (
-				D0EAADBD2D163888001654F5 /* Location-Based-Mood-Tracker-Info.plist */,
 				D0DFEAB52D1F4977000EA52A /* App View */,
-				D0EAADAE2D160787001654F5 /* ContentView.swift */,
-				D0CCF2732D178B0300D13B7D /* JournalPage.swift */,
-				D0DFEAB62D1F4999000EA52A /* Map */,
-				D0DFEAB02D1F1A3F000EA52A /* MoodSwings.swift */,
-				D0DFEAB42D1F4955000EA52A /* Services */,
 				D0DFEAB32D1F4930000EA52A /* Data */,
-				D0EAADB02D160789001654F5 /* Assets.xcassets */,
+				D0FC66F42D272DAA00F1E979 /* Tabs */,
+				D0DFEAB42D1F4955000EA52A /* Services */,
+				D0437D462D272829004E9E27 /* TGFlingActionButton */,
 				D0EAADB22D160789001654F5 /* Preview Content */,
 			);
 			path = "Location-Based Mood Tracker";
@@ -119,9 +172,21 @@
 		D0EAADB22D160789001654F5 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				D0EAADB02D160789001654F5 /* Assets.xcassets */,
 				D0EAADB32D160789001654F5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D0FC66F42D272DAA00F1E979 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				D0437D3E2D2726E7004E9E27 /* New Mood */,
+				D0437D3F2D2726FD004E9E27 /* Mood Journal */,
+				D0DFEAB62D1F4999000EA52A /* Mood Mapp */,
+				D04B281C2D21E2F40092673A /* Mood Swings */,
+			);
+			path = Tabs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,12 +265,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06E8B7F2D24B625003A6400 /* MoodRingBackground.swift in Sources */,
+				D00304C22D267445003E2E0F /* SwipableButtonView.swift in Sources */,
+				D06E8B732D246272003A6400 /* MoodScore.swift in Sources */,
 				D0CCF2742D178B0400D13B7D /* JournalPage.swift in Sources */,
+				D06E8B792D2463D2003A6400 /* ThirtyDayRating.swift in Sources */,
 				D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */,
 				D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */,
+				D06E8B7D2D246678003A6400 /* MoodStreak.swift in Sources */,
 				D0CCF27A2D17BBBE00D13B7D /* MoodMap.swift in Sources */,
+				D0FC66F62D2788F000F1E979 /* CurvedText.swift in Sources */,
 				D0DFEAB82D1F49C7000EA52A /* MapStyleConfig.swift in Sources */,
 				D0DFEAB12D1F1A3F000EA52A /* MoodSwings.swift in Sources */,
+				D06E8B752D2462CB003A6400 /* MoodRing.swift in Sources */,
 				D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */,
 				D0DFEABC2D1F4B7F000EA52A /* MapStyleView.swift in Sources */,
 				D0EAADAD2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift in Sources */,

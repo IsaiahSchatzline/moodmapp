@@ -49,14 +49,12 @@ struct MapStyleConfig {
     var elevation = MapElevation.flat
     var pointsOfInterest = MapPOI.excludingAll
     
-    var showTraffic = false
-    
     var mapStyle: MapStyle {
         switch baseStyle {
         case .standard:
-            MapStyle.standard(elevation: elevation.selection, pointsOfInterest: pointsOfInterest.selection, showsTraffic: showTraffic)
+            MapStyle.standard(elevation: elevation.selection, pointsOfInterest: pointsOfInterest.selection)
         case .hybrid:
-            MapStyle.hybrid(elevation: elevation.selection, pointsOfInterest: pointsOfInterest.selection, showsTraffic: showTraffic)
+            MapStyle.hybrid(elevation: elevation.selection, pointsOfInterest: pointsOfInterest.selection)
         case .imagery:
             MapStyle.imagery(elevation: elevation.selection)
         }
