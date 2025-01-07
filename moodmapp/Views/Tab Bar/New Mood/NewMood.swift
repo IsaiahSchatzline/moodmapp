@@ -61,7 +61,7 @@ struct NewMood: View {
                         .shadow(color: .black.opacity(0.3), radius: 10, x: 0.0, y: 10)
                         .padding()
                         .offset(x: 0, y: -175)
-                        .onChange(of: moodTitle) { newValue in
+                        .onChange(of: moodTitle, initial: false) { oldValue, newValue in
                             if newValue.count > titleCharacterLimt {
                                 moodTitle = String(newValue.prefix(titleCharacterLimt))
                             }

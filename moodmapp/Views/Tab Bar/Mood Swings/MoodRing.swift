@@ -26,12 +26,10 @@ struct MoodRing: View {
                 .bold()
 
             if let chartData = prepareChartData(from: journalEntries) {
-                let totalCount = chartData.reduce(0) { $0 + $1.value }
 
                 Chart {
                     ForEach(chartData.keys.sorted(), id: \.self) { moodType in
                         let count = chartData[moodType] ?? 0
-                        let percentage = Double(count) / Double(totalCount) * 100
 
                         SectorMark(
                             angle: .value("count", count),

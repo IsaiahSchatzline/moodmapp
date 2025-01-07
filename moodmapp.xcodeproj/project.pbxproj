@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D00304C22D267445003E2E0F /* SwipableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00304C12D267445003E2E0F /* SwipableButtonView.swift */; };
-		D00942C52D28798200C9BE74 /* Location-Based-Mood-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D00942C42D28798200C9BE74 /* Location-Based-Mood-Tracker-Info.plist */; };
 		D01B583A2D287BE30032FB1C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D01B58392D287BE30032FB1C /* Launch Screen.storyboard */; };
 		D069953B2D28FCC6009F90C1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D069953A2D28FCC6009F90C1 /* Color.swift */; };
 		D06E8B732D246272003A6400 /* MoodScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E8B722D246272003A6400 /* MoodScore.swift */; };
@@ -65,7 +64,7 @@
 
 /* Begin PBXFileReference section */
 		D00304C12D267445003E2E0F /* SwipableButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipableButtonView.swift; sourceTree = "<group>"; };
-		D00942C42D28798200C9BE74 /* Location-Based-Mood-Tracker-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Location-Based-Mood-Tracker-Info.plist"; sourceTree = "<group>"; };
+		D00942C42D28798200C9BE74 /* moodmapp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = moodmapp.plist; sourceTree = "<group>"; };
 		D01B58392D287BE30032FB1C /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D0437D472D272829004E9E27 /* TGFlingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGFlingActionButton.swift; sourceTree = "<group>"; };
 		D0437D482D272829004E9E27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -92,7 +91,7 @@
 		D0DFEAB02D1F1A3F000EA52A /* MoodSwings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodSwings.swift; sourceTree = "<group>"; };
 		D0DFEAB72D1F49C7000EA52A /* MapStyleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyleConfig.swift; sourceTree = "<group>"; };
 		D0DFEABB2D1F4B7F000EA52A /* MapStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyleView.swift; sourceTree = "<group>"; };
-		D0EAADA92D160787001654F5 /* Location-Based Mood Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Location-Based Mood Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0EAADA92D160787001654F5 /* moodmapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moodmapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location_Based_Mood_TrackerApp.swift; sourceTree = "<group>"; };
 		D0EAADAE2D160787001654F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D0EAADB02D160789001654F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -182,13 +181,13 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
-		D08A945C2D2B6B7F00A1A87E /* Root */ = {
+		D08A945C2D2B6B7F00A1A87E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D0EAADAE2D160787001654F5 /* ContentView.swift */,
+				D0F6225F2D2DBBC5008CD41E /* Content View */,
 				D08EA3BD2D2DB00F00C37B24 /* Tab Bar */,
 			);
-			path = Root;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		D08A945F2D2B759100A1A87E /* Components */ = {
@@ -240,12 +239,12 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		D0DFEAB52D1F4977000EA52A /* App View */ = {
+		D0DFEAB52D1F4977000EA52A /* App */ = {
 			isa = PBXGroup;
 			children = (
 				D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */,
 			);
-			path = "App View";
+			path = App;
 			sourceTree = "<group>";
 		};
 		D0DFEAB62D1F4999000EA52A /* Mood Mapp */ = {
@@ -261,8 +260,8 @@
 		D0EAADA02D160787001654F5 = {
 			isa = PBXGroup;
 			children = (
-				D00942C42D28798200C9BE74 /* Location-Based-Mood-Tracker-Info.plist */,
-				D0EAADAB2D160787001654F5 /* Location-Based Mood Tracker */,
+				D00942C42D28798200C9BE74 /* moodmapp.plist */,
+				D0EAADAB2D160787001654F5 /* moodmapp */,
 				D0EAADB02D160789001654F5 /* Assets.xcassets */,
 				D01B58392D287BE30032FB1C /* Launch Screen.storyboard */,
 				D0DD52D12D2C5DE1002A5941 /* GoogleService-Info.plist */,
@@ -273,22 +272,25 @@
 		D0EAADAA2D160787001654F5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0EAADA92D160787001654F5 /* Location-Based Mood Tracker.app */,
+				D0EAADA92D160787001654F5 /* moodmapp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D0EAADAB2D160787001654F5 /* Location-Based Mood Tracker */ = {
+		D0EAADAB2D160787001654F5 /* moodmapp */ = {
 			isa = PBXGroup;
 			children = (
-				D0DFEAB52D1F4977000EA52A /* App View */,
+				D0DFEAB52D1F4977000EA52A /* App */,
 				D08A945F2D2B759100A1A87E /* Components */,
-				D0FC66F42D272DAA00F1E979 /* Core */,
+				D08A945C2D2B6B7F00A1A87E /* Views */,
+				D0DD53052D2CB867002A5941 /* Models */,
+				D08EA3BA2D2DAF5A00C37B24 /* Login */,
+				D08A945A2D2B6B7100A1A87E /* Authentication */,
 				D0DFEAB42D1F4955000EA52A /* Services */,
 				D0437D462D272829004E9E27 /* TGFlingActionButton */,
 				D0EAADB22D160789001654F5 /* Preview Content */,
 			);
-			path = "Location-Based Mood Tracker";
+			path = moodmapp;
 			sourceTree = "<group>";
 		};
 		D0EAADB22D160789001654F5 /* Preview Content */ = {
@@ -299,23 +301,20 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		D0FC66F42D272DAA00F1E979 /* Core */ = {
+		D0F6225F2D2DBBC5008CD41E /* Content View */ = {
 			isa = PBXGroup;
 			children = (
-				D08A945C2D2B6B7F00A1A87E /* Root */,
-				D0DD53052D2CB867002A5941 /* Models */,
-				D08EA3BA2D2DAF5A00C37B24 /* Login */,
-				D08A945A2D2B6B7100A1A87E /* Authentication */,
+				D0EAADAE2D160787001654F5 /* ContentView.swift */,
 			);
-			path = Core;
+			path = "Content View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D0EAADA82D160787001654F5 /* Location-Based Mood Tracker */ = {
+		D0EAADA82D160787001654F5 /* moodmapp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0EAADB72D160789001654F5 /* Build configuration list for PBXNativeTarget "Location-Based Mood Tracker" */;
+			buildConfigurationList = D0EAADB72D160789001654F5 /* Build configuration list for PBXNativeTarget "moodmapp" */;
 			buildPhases = (
 				D0EAADA52D160787001654F5 /* Sources */,
 				D0EAADA62D160787001654F5 /* Frameworks */,
@@ -325,7 +324,7 @@
 			);
 			dependencies = (
 			);
-			name = "Location-Based Mood Tracker";
+			name = moodmapp;
 			packageProductDependencies = (
 				D0A2F0A72D1A4759003BF22A /* HalfASheet */,
 				D0DD52D42D2C5F60002A5941 /* FirebaseAnalytics */,
@@ -354,7 +353,7 @@
 				D0DD53022D2C5F60002A5941 /* FirebaseVertexAI */,
 			);
 			productName = "Location-Based Mood Tracker";
-			productReference = D0EAADA92D160787001654F5 /* Location-Based Mood Tracker.app */;
+			productReference = D0EAADA92D160787001654F5 /* moodmapp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -372,7 +371,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D0EAADA42D160787001654F5 /* Build configuration list for PBXProject "Location-Based Mood Tracker" */;
+			buildConfigurationList = D0EAADA42D160787001654F5 /* Build configuration list for PBXProject "moodmapp" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -389,7 +388,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D0EAADA82D160787001654F5 /* Location-Based Mood Tracker */,
+				D0EAADA82D160787001654F5 /* moodmapp */,
 			);
 		};
 /* End PBXProject section */
@@ -400,7 +399,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0EAADB42D160789001654F5 /* Preview Assets.xcassets in Resources */,
-				D00942C52D28798200C9BE74 /* Location-Based-Mood-Tracker-Info.plist in Resources */,
 				D0DD52D22D2C5DE1002A5941 /* GoogleService-Info.plist in Resources */,
 				D01B583A2D287BE30032FB1C /* Launch Screen.storyboard in Resources */,
 				D0EAADB12D160789001654F5 /* Assets.xcassets in Resources */,
@@ -571,18 +569,21 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Location-Based Mood Tracker/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"moodmapp/Preview Content\"";
 				DEVELOPMENT_TEAM = 2G94952XK8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Location-Based-Mood-Tracker-Info.plist";
+				INFOPLIST_FILE = moodmapp.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = moodmapp;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show the user location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -605,18 +606,21 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Location-Based Mood Tracker/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"moodmapp/Preview Content\"";
 				DEVELOPMENT_TEAM = 2G94952XK8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Location-Based-Mood-Tracker-Info.plist";
+				INFOPLIST_FILE = moodmapp.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = moodmapp;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show the user location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -634,7 +638,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D0EAADA42D160787001654F5 /* Build configuration list for PBXProject "Location-Based Mood Tracker" */ = {
+		D0EAADA42D160787001654F5 /* Build configuration list for PBXProject "moodmapp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0EAADB52D160789001654F5 /* Debug */,
@@ -643,7 +647,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0EAADB72D160789001654F5 /* Build configuration list for PBXNativeTarget "Location-Based Mood Tracker" */ = {
+		D0EAADB72D160789001654F5 /* Build configuration list for PBXNativeTarget "moodmapp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0EAADB82D160789001654F5 /* Debug */,
