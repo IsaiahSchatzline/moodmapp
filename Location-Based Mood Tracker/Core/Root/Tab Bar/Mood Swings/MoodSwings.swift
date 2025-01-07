@@ -59,8 +59,12 @@ struct MoodSwings: View {
                         .padding(.vertical, 25)
                     }
                     .background(
-                        RoundedRectangle(cornerRadius: 10)  // Rounded corners
-                            .fill(Color.white)  // Background color
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)  // Rounded corners
+                                .fill(Color.white)  // Background color
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.black, lineWidth: 2)
+                        }
                     )
                     .padding(15)
                 }

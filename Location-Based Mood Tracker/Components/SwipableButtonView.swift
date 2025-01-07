@@ -115,7 +115,7 @@ struct SwipableButtonView: View {
                                     showBlueRing = true
                                 }
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                     resetSlider()
                                 }
                             } else {

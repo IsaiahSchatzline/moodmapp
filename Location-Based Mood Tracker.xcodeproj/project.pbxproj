@@ -22,6 +22,7 @@
 		D08A94652D2B92DE00A1A87E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08A94642D2B92DD00A1A87E /* ProfileView.swift */; };
 		D08A94672D2B945C00A1A87E /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08A94662D2B945C00A1A87E /* SettingsRowView.swift */; };
 		D08A946B2D2B97D300A1A87E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08A946A2D2B97D300A1A87E /* User.swift */; };
+		D08EA3BC2D2DAFC500C37B24 /* NewMood.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EA3BB2D2DAFC500C37B24 /* NewMood.swift */; };
 		D0A2F0A82D1A4759003BF22A /* HalfASheet in Frameworks */ = {isa = PBXBuildFile; productRef = D0A2F0A72D1A4759003BF22A /* HalfASheet */; };
 		D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */; };
 		D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2712D17838C00D13B7D /* JournalEntries.swift */; };
@@ -81,6 +82,7 @@
 		D08A94642D2B92DD00A1A87E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		D08A94662D2B945C00A1A87E /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
 		D08A946A2D2B97D300A1A87E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D08EA3BB2D2DAFC500C37B24 /* NewMood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMood.swift; sourceTree = "<group>"; };
 		D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D0CCF2712D17838C00D13B7D /* JournalEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntries.swift; sourceTree = "<group>"; };
 		D0CCF2732D178B0300D13B7D /* JournalPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPage.swift; sourceTree = "<group>"; };
@@ -136,8 +138,7 @@
 		D0437D3E2D2726E7004E9E27 /* New Mood */ = {
 			isa = PBXGroup;
 			children = (
-				D0EAADAE2D160787001654F5 /* ContentView.swift */,
-				D00304C12D267445003E2E0F /* SwipableButtonView.swift */,
+				D08EA3BB2D2DAFC500C37B24 /* NewMood.swift */,
 			);
 			path = "New Mood";
 			sourceTree = "<group>";
@@ -176,24 +177,16 @@
 		D08A945A2D2B6B7100A1A87E /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				D0DD53052D2CB867002A5941 /* ViewModel */,
-				D0DD53042D2CB85E002A5941 /* Views */,
+				D0DD53062D2CB896002A5941 /* AuthViewModel.swift */,
 			);
 			path = Authentication;
-			sourceTree = "<group>";
-		};
-		D08A945B2D2B6B7800A1A87E /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				D08A94642D2B92DD00A1A87E /* ProfileView.swift */,
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		D08A945C2D2B6B7F00A1A87E /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				D0437D3E2D2726E7004E9E27 /* New Mood */,
+				D0EAADAE2D160787001654F5 /* ContentView.swift */,
+				D08EA3BD2D2DB00F00C37B24 /* Tab Bar */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -203,35 +196,40 @@
 			children = (
 				D08A94602D2B75B400A1A87E /* InputView.swift */,
 				D08A94662D2B945C00A1A87E /* SettingsRowView.swift */,
+				D00304C12D267445003E2E0F /* SwipableButtonView.swift */,
+				D069953A2D28FCC6009F90C1 /* Color.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		D0DD53042D2CB85E002A5941 /* Views */ = {
+		D08EA3BA2D2DAF5A00C37B24 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				D08A945D2D2B6BDB00A1A87E /* LoginView.swift */,
 				D08A94622D2B870100A1A87E /* RegistrationView.swift */,
+				D08A94642D2B92DD00A1A87E /* ProfileView.swift */,
 			);
-			path = Views;
+			path = Login;
 			sourceTree = "<group>";
 		};
-		D0DD53052D2CB867002A5941 /* ViewModel */ = {
+		D08EA3BD2D2DB00F00C37B24 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
-				D0DD53062D2CB896002A5941 /* AuthViewModel.swift */,
+				D0437D3E2D2726E7004E9E27 /* New Mood */,
+				D0437D3F2D2726FD004E9E27 /* Mood Journal */,
+				D0DFEAB62D1F4999000EA52A /* Mood Mapp */,
+				D04B281C2D21E2F40092673A /* Mood Swings */,
 			);
-			path = ViewModel;
+			path = "Tab Bar";
 			sourceTree = "<group>";
 		};
-		D0DFEAB32D1F4930000EA52A /* Model */ = {
+		D0DD53052D2CB867002A5941 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				D0CCF2712D17838C00D13B7D /* JournalEntries.swift */,
 				D08A946A2D2B97D300A1A87E /* User.swift */,
-				D069953A2D28FCC6009F90C1 /* Color.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D0DFEAB42D1F4955000EA52A /* Services */ = {
@@ -286,7 +284,6 @@
 				D0DFEAB52D1F4977000EA52A /* App View */,
 				D08A945F2D2B759100A1A87E /* Components */,
 				D0FC66F42D272DAA00F1E979 /* Core */,
-				D0DFEAB32D1F4930000EA52A /* Model */,
 				D0DFEAB42D1F4955000EA52A /* Services */,
 				D0437D462D272829004E9E27 /* TGFlingActionButton */,
 				D0EAADB22D160789001654F5 /* Preview Content */,
@@ -305,12 +302,10 @@
 		D0FC66F42D272DAA00F1E979 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				D08A945A2D2B6B7100A1A87E /* Authentication */,
-				D08A945B2D2B6B7800A1A87E /* Profile */,
 				D08A945C2D2B6B7F00A1A87E /* Root */,
-				D0437D3F2D2726FD004E9E27 /* Mood Journal */,
-				D0DFEAB62D1F4999000EA52A /* Mood Mapp */,
-				D04B281C2D21E2F40092673A /* Mood Swings */,
+				D0DD53052D2CB867002A5941 /* Models */,
+				D08EA3BA2D2DAF5A00C37B24 /* Login */,
+				D08A945A2D2B6B7100A1A87E /* Authentication */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -428,6 +423,7 @@
 				D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */,
 				D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */,
 				D06E8B7D2D246678003A6400 /* MoodStreak.swift in Sources */,
+				D08EA3BC2D2DAFC500C37B24 /* NewMood.swift in Sources */,
 				D0CCF27A2D17BBBE00D13B7D /* MoodMap.swift in Sources */,
 				D08A946B2D2B97D300A1A87E /* User.swift in Sources */,
 				D08A945E2D2B6BDB00A1A87E /* LoginView.swift in Sources */,

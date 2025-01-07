@@ -47,14 +47,26 @@ func calculateStreaks(from entries: [JournalEntries]) -> (current: Int, longest:
     guard !entries.isEmpty else { return (0, 0) }
     
     let calendar = Calendar.current
+    let today = calendar.startOfDay(for: Date())
     
     // Extract dates and sort them in descending order
-    let dates = entries.compactMap { $0.dateOfEntry }.sorted(by: >)
+    let dates = entries.compactMap { calendar.startOfDay(for: $0.dateOfEntry) }.sorted(by: >)
     
-    var currentStreak = 1 // At least one day
-    var longestStreak = 1
-    var streakCounter = 1
+    var currentStreak = 0 // At least one day
+    var longestStreak = 0
+    var streakCounter = 0
     var lastEntryDate = dates[0]
+    
+    // Check if the most recent entry is today
+    if calendar.isDate(lastEntryDate, inSameDayAs: today) {
+        // Already counted as part of the streak
+    } else if let difference = calendar.dateComponents([.day], from: lastEntryDate, to: today).day, difference == 1 {
+        // Extend streak to include yesterday
+        currentStreak = 1
+    } else {
+        // Reset streak if no entry for today or yesterday
+        return (0, longestStreak)
+    }
     
     for i in 1..<dates.count {
         let currentDate = dates[i]
@@ -68,7 +80,6 @@ func calculateStreaks(from entries: [JournalEntries]) -> (current: Int, longest:
             } else if difference > 1 {
                 // If there is more than 1 day gap, reset the streak to 1
                 streakCounter = 1
-                currentStreak = streakCounter
             }
         }
         
