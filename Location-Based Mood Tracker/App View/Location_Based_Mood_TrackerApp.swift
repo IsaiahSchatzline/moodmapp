@@ -7,15 +7,21 @@
 
 import SwiftUI
 import SwiftData
+import Firebase
 
 @main
 struct Location_Based_Mood_TrackerApp: App {
     
-   // private let modelContainer = try! ModelContainer(for: JournalEntries.self)
+   @StateObject var viewModel = AuthViewModel()
+    
+    init() {
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(viewModel)
         }
         .modelContainer(for: [JournalEntries.self])
     }
