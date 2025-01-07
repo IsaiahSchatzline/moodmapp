@@ -66,9 +66,6 @@
 		D00304C12D267445003E2E0F /* SwipableButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipableButtonView.swift; sourceTree = "<group>"; };
 		D00942C42D28798200C9BE74 /* moodmapp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = moodmapp.plist; sourceTree = "<group>"; };
 		D01B58392D287BE30032FB1C /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		D0437D472D272829004E9E27 /* TGFlingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGFlingActionButton.swift; sourceTree = "<group>"; };
-		D0437D482D272829004E9E27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		D0437D492D272829004E9E27 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		D069953A2D28FCC6009F90C1 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D06E8B722D246272003A6400 /* MoodScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScore.swift; sourceTree = "<group>"; };
 		D06E8B742D2462CB003A6400 /* MoodRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodRing.swift; sourceTree = "<group>"; };
@@ -148,16 +145,6 @@
 				D0CCF2732D178B0300D13B7D /* JournalPage.swift */,
 			);
 			path = "Mood Journal";
-			sourceTree = "<group>";
-		};
-		D0437D462D272829004E9E27 /* TGFlingActionButton */ = {
-			isa = PBXGroup;
-			children = (
-				D0437D492D272829004E9E27 /* LICENSE */,
-				D0437D482D272829004E9E27 /* README.md */,
-				D0437D472D272829004E9E27 /* TGFlingActionButton.swift */,
-			);
-			path = TGFlingActionButton;
 			sourceTree = "<group>";
 		};
 		D04B281C2D21E2F40092673A /* Mood Swings */ = {
@@ -287,7 +274,6 @@
 				D08EA3BA2D2DAF5A00C37B24 /* Login */,
 				D08A945A2D2B6B7100A1A87E /* Authentication */,
 				D0DFEAB42D1F4955000EA52A /* Services */,
-				D0437D462D272829004E9E27 /* TGFlingActionButton */,
 				D0EAADB22D160789001654F5 /* Preview Content */,
 			);
 			path = moodmapp;
