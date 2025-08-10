@@ -1,10 +1,3 @@
-//
-//  InputView.swift
-//  Location-Based Mood Tracker
-//
-//  Created by Isaiah Schatzline on 1/5/25.
-//
-
 import SwiftUI
 
 struct InputView: View {

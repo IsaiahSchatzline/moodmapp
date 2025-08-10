@@ -1,10 +1,3 @@
-//
-//  NewMood.swift
-//  Location-Based Mood Tracker
-//
-//  Created by Isaiah Schatzline on 1/7/25.
-//
-
 import SwiftUI
 import SwiftData
 import HalfASheet

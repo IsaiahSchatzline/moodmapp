@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Location-Based Mood Tracker
-//
-//  Created by Isaiah Schatzline on 12/20/24.
-//
-
 import SwiftUI
 import SwiftData
 import HalfASheet

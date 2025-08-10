@@ -1,10 +1,3 @@
-//
-//  Color.swift
-//  Location-Based Mood Tracker
-//
-//  Created by Isaiah Schatzline on 1/4/25.
-//
-
 import SwiftUI
 
 extension Color {

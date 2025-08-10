@@ -1,10 +1,3 @@
-//
-//  ThirtyDayRating.swift
-//  Location-Based Mood Tracker
-//
-//  Created by Isaiah Schatzline on 12/31/24.
-//
-
 import SwiftUI
 import SwiftData
 import Charts

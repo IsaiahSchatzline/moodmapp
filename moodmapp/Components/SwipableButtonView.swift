@@ -1,10 +1,3 @@
-//
-//  SwipableButtonView.swift
-//  Location-Based Mood Tracker
-//
-//  Created by Isaiah Schatzline on 1/2/25.
-//
-
 import SwiftUI
 import SwiftData
 import MapKit

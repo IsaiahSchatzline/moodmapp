@@ -1,10 +1,3 @@
-//
-//  AuthViewModel.swift
-//  Location-Based Mood Tracker
-//
-//  Created by Isaiah Schatzline on 1/6/25.
-//
-
 import Foundation
 import Firebase
 import FirebaseAuth
