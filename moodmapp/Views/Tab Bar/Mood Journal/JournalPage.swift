@@ -1,18 +1,20 @@
 import SwiftUI
-import SwiftData
+//import SwiftData
 import MapKit
 
 struct JournalPage: View {
-  @Environment(\.modelContext) var context
-  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
+//  @Environment(\.modelContext) var context
+//  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
   @State private var entryToEdit: JournalEntries?
   @State private var searchText: String = ""
+  @StateObject private var viewModel = JournalEntriesViewModel()
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   var filteredEntries: [JournalEntries] {
     if searchText.isEmpty {
-      return entries
+      return viewModel.entries
     } else {
-      return entries.filter { entry in
+      return viewModel.entries.filter { entry in
         entry.moodTitle.lowercased().contains(searchText.lowercased()) ||
         entry.emoji.contains(searchText) ||
         "\(entry.moodRating)".contains(searchText) ||
@@ -62,33 +64,7 @@ struct JournalPage: View {
         .offset(x: 0, y: 25)
         
         // List of Journal Entries
-        List {
-          ForEach(filteredEntries) { entry in
-            EntryCell(entry: entry)
-              .onTapGesture {
-                entryToEdit = entry
-              }
-              .padding()
-          }
-          .onDelete { indexSet in
-            for index in indexSet {
-              context.delete(entries[index])
-            }
-          }
-          .listRowBackground(
-            RoundedRectangle(cornerRadius: 20)
-              .fill(Color(white: 1, opacity: 0.8))
-              .padding(.vertical, 5)
-              .padding(.horizontal, 20)
-              .overlay(RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.black, lineWidth: 2)
-                .padding(.vertical, 5)
-                .padding(.horizontal, 20)
-              )
-          )
-          .listRowSeparator(.hidden)
-        }
-        .listRowInsets(.init(top: 0, leading: 40, bottom: 0, trailing: 40))
+        entryList
         
       }
       .navigationTitle("moodjournal")
@@ -102,32 +78,76 @@ struct JournalPage: View {
         )
         .ignoresSafeArea()
       )
+      .task {
+        viewModel.authVM = authViewModel
+        await viewModel.loadEntries(descending: true)
+      }
+    }
+  }
+  
+  private var entryList: some View {
+    List {
+      ForEach(filteredEntries) { entry in
+        EntryCell(entryModel: entry)
+          .onTapGesture {
+            entryToEdit = entry
+          }
+          .padding()
+      }
+      .onDelete { indexSet in
+        deleteEntry(at: indexSet)
+      }
+      .listRowBackground(
+        RoundedRectangle(cornerRadius: 20)
+          .fill(Color(white: 1, opacity: 0.8))
+          .padding(.vertical, 5)
+          .padding(.horizontal, 20)
+          .overlay(RoundedRectangle(cornerRadius: 20)
+            .stroke(Color.black, lineWidth: 2)
+            .padding(.vertical, 5)
+            .padding(.horizontal, 20)
+          )
+      )
+      .listRowSeparator(.hidden)
+    }
+    .listRowInsets(.init(top: 0, leading: 40, bottom: 0, trailing: 40))
+  }
+  
+  func deleteEntry(at offsets: IndexSet) {
+    Task {
+      viewModel.authVM = authViewModel
+      for index in offsets {
+        let entry = filteredEntries[index]
+        await viewModel.deleteEntry(entry)
+      }
     }
   }
 }
 
+
 struct EntryCell: View {
-  let entry: JournalEntries
+  let entryModel: JournalEntries
+  @StateObject private var viewModel = JournalEntriesViewModel()
   @ObservedObject var locationManager = LocationManager()
   
   var body: some View {
     VStack(alignment: .leading) {
-      Text(entry.moodTitle) // Display the thoughts
+      Text(viewModel.entry.moodTitle) // Display the thoughts
         .font(.title.bold())
         .padding(.bottom, 5)
       HStack {
-        Text(entry.emoji)
+        Text(viewModel.entry.emoji)
           .font(.title2)
-        Text("\(entry.moodRating)") // Display the mood rating
+        Text("\(viewModel.entry.moodRating)") // Display the mood rating
           .font(.title2)
           .foregroundStyle(.black)
       }
       .padding(.bottom, 5)
-      Text(dateFormatter.string(from: entry.dateOfEntry)) // Display the date
+      Text(dateFormatter.string(from: viewModel.entry.dateOfEntry)) // Display the date
         .font(.subheadline)
         .foregroundStyle(.black)
       
-      if let latitude = entry.latitude, let longitude = entry.longitude {
+      if let latitude = viewModel.entry.latitude, let longitude = viewModel.entry.longitude {
         Text("latitude: \(latitude)")
           .font(.caption)
           .foregroundColor(.black)
@@ -139,7 +159,6 @@ struct EntryCell: View {
           .font(.caption)
           .foregroundColor(.red)
       }
-      
     }
   }
 }
@@ -151,9 +170,9 @@ struct ViewEntry: View {
     case sad = "😢", anxious = "😰", angry = "😡", irritable = "😤", depressed = "😞", frustrated = "😩", guilty = "😔", ashamed = "😳", lonely = "😕", hopeless = "😖"
     case indifferent = "😐", confused = "🤔", nostalgic = "🥺", curious = "🤨", reflective = "🤯", tense = "😬", tired = "😴", bored = "😒", distracted = "😵", stressed = "😫"
   }
-  @Environment(\.modelContext) var context
+//  @Environment(\.modelContext) var context
   @Environment(\.dismiss) private var dismiss
-  @Bindable var entry: JournalEntries
+  @StateObject private var viewModel = JournalEntriesViewModel()
   @State var moodRating: Int = 5
   @State var dateOfEntry: Date = .now
   @State var entryThoughts: String = ""
@@ -163,7 +182,17 @@ struct ViewEntry: View {
   @State var showingCancelAlert: Bool = false
   @State var selectedEmoji: emoji = emoji.content
   @State private var showingMap = false
+  var entry: JournalEntries
   var hideMapButton: Bool
+  
+  init(entry: JournalEntries, hideMapButton: Bool) {
+    self.entry = entry
+    self.hideMapButton = hideMapButton
+    _moodTitle = State(initialValue: entry.moodTitle)
+    _entryThoughts = State(initialValue: entry.entryThoughts)
+    _moodRating = State(initialValue: entry.moodRating)
+    _dateOfEntry = State(initialValue: entry.dateOfEntry)
+  }
   
   var body: some View {
     NavigationStack {
@@ -171,12 +200,12 @@ struct ViewEntry: View {
         HStack {
           Text("Mood Title:")
           Spacer()
-          TextField("", text: $entry.moodTitle)
+          TextField("", text: $moodTitle)
         }
         HStack {
           Text("Mood Date:")
           Spacer()
-          DatePicker("", selection: $entry.dateOfEntry)
+          DatePicker("", selection: $dateOfEntry)
         }
         
         
@@ -185,8 +214,8 @@ struct ViewEntry: View {
           Text("Mood:")
           Spacer()
           Picker("", selection: Binding(
-            get: { Emoji(rawValue: entry.emoji) ?? .happy },
-            set: { entry.emoji = $0.rawValue }
+            get: { Emoji(rawValue: viewModel.entry.emoji) ?? .happy },
+            set: { viewModel.entry.emoji = $0.rawValue }
           )) {
             ForEach(Emoji.allCases, id: \.self) { moodEmoji in
               Text(moodEmoji.combinedEmojiDisplay)
@@ -200,20 +229,20 @@ struct ViewEntry: View {
         
         // Mood Rating - Use a Slider or Stepper instead of TextField for Int
         HStack {
-          Text("Mood Rating: \(entry.moodRating)")
+          Text("Mood Rating: \(viewModel.entry.moodRating)")
           Spacer()
-          Stepper("", value: $entry.moodRating, in: 1...10)
+          Stepper("", value: $moodRating, in: 1...10)
         }
         
         // Thoughts - TextField for user input
         Section("Thoughts") {
-          TextField("Thoughts", text: $entry.entryThoughts, axis: .vertical)
+          TextField("Thoughts", text: $entryThoughts, axis: .vertical)
         }
       }
       VStack {
         if !hideMapButton {
           // NavigationLink to navigate directly to MoodMap
-          NavigationLink(destination: MoodMap(journalEntry: entry)) {
+          NavigationLink(destination: MoodMap()) {
             Text("View On Map")
               .font(.headline)
               .foregroundStyle(.blue)

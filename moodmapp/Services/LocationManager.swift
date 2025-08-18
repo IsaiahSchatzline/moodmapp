@@ -1,6 +1,6 @@
 import Foundation
 import CoreLocation
-import SwiftData
+//import SwiftData
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   private let locationManager = CLLocationManager()

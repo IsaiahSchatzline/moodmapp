@@ -11,6 +11,7 @@ protocol AuthenticationFormProtocol {
 class AuthViewModel: ObservableObject {
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
+  static let shared = AuthViewModel()
   
   init() {
     self.userSession = Auth.auth().currentUser
@@ -40,6 +41,7 @@ class AuthViewModel: ObservableObject {
       await fetchUser()
     } catch {
       print("DEBUG: Faield to create user with error \(error.localizedDescription)")
+      throw error
     }
   }
   
@@ -58,8 +60,21 @@ class AuthViewModel: ObservableObject {
   }
   
   func fetchUser() async {
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
-    self.currentUser = try? snapshot.data(as: User.self)
+    guard let uid = Auth.auth().currentUser?.uid else {
+      print("DEBUG: No current user UID available")
+      return
+    }
+    
+    do {
+      let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
+      if snapshot.exists {
+        self.currentUser = try snapshot.data(as: User.self)
+        print("DEBUG: Successfully fetched user: \(self.currentUser?.fullname ?? "unknown")")
+      } else {
+        print("DEBUG: User document does not exist for uid: \(uid)")
+      }
+    } catch {
+      print("DEBUG: Failed to fetch user: \(error.localizedDescription)")
+    }
   }
 }

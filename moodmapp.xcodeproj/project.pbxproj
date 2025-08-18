@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95B2E0EE2E523ED200D323D9 /* JournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2E0ED2E523ECB00D323D9 /* JournalEntries.swift */; };
+		95B2E0F02E52411A00D323D9 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2E0EF2E52411700D323D9 /* FirestoreManager.swift */; };
+		95B2E0F22E52415E00D323D9 /* JournalEntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2E0F12E52414A00D323D9 /* JournalEntriesViewModel.swift */; };
 		D00304C22D267445003E2E0F /* SwipableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00304C12D267445003E2E0F /* SwipableButtonView.swift */; };
 		D01B583A2D287BE30032FB1C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D01B58392D287BE30032FB1C /* Launch Screen.storyboard */; };
 		D069953B2D28FCC6009F90C1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D069953A2D28FCC6009F90C1 /* Color.swift */; };
@@ -24,7 +27,7 @@
 		D08EA3BC2D2DAFC500C37B24 /* NewMood.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EA3BB2D2DAFC500C37B24 /* NewMood.swift */; };
 		D0A2F0A82D1A4759003BF22A /* HalfASheet in Frameworks */ = {isa = PBXBuildFile; productRef = D0A2F0A72D1A4759003BF22A /* HalfASheet */; };
 		D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */; };
-		D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2712D17838C00D13B7D /* JournalEntries.swift */; };
+		D0CCF2722D17838C00D13B7D /* OldJournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2712D17838C00D13B7D /* OldJournalEntries.swift */; };
 		D0CCF2742D178B0400D13B7D /* JournalPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2732D178B0300D13B7D /* JournalPage.swift */; };
 		D0CCF27A2D17BBBE00D13B7D /* MoodMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */; };
 		D0DD52D22D2C5DE1002A5941 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0DD52D12D2C5DE1002A5941 /* GoogleService-Info.plist */; };
@@ -63,6 +66,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		95B2E0ED2E523ECB00D323D9 /* JournalEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntries.swift; sourceTree = "<group>"; };
+		95B2E0EF2E52411700D323D9 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		95B2E0F12E52414A00D323D9 /* JournalEntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntriesViewModel.swift; sourceTree = "<group>"; };
 		D00304C12D267445003E2E0F /* SwipableButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipableButtonView.swift; sourceTree = "<group>"; };
 		D00942C42D28798200C9BE74 /* moodmapp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = moodmapp.plist; sourceTree = "<group>"; };
 		D01B58392D287BE30032FB1C /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -80,7 +86,7 @@
 		D08A946A2D2B97D300A1A87E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D08EA3BB2D2DAFC500C37B24 /* NewMood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMood.swift; sourceTree = "<group>"; };
 		D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		D0CCF2712D17838C00D13B7D /* JournalEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntries.swift; sourceTree = "<group>"; };
+		D0CCF2712D17838C00D13B7D /* OldJournalEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldJournalEntries.swift; sourceTree = "<group>"; };
 		D0CCF2732D178B0300D13B7D /* JournalPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPage.swift; sourceTree = "<group>"; };
 		D0CCF2792D17BBBE00D13B7D /* MoodMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodMap.swift; sourceTree = "<group>"; };
 		D0DD52D12D2C5DE1002A5941 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -212,7 +218,9 @@
 		D0DD53052D2CB867002A5941 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D0CCF2712D17838C00D13B7D /* JournalEntries.swift */,
+				D0CCF2712D17838C00D13B7D /* OldJournalEntries.swift */,
+				95B2E0ED2E523ECB00D323D9 /* JournalEntries.swift */,
+				95B2E0F12E52414A00D323D9 /* JournalEntriesViewModel.swift */,
 				D08A946A2D2B97D300A1A87E /* User.swift */,
 			);
 			path = Models;
@@ -222,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */,
+				95B2E0EF2E52411700D323D9 /* FirestoreManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -404,21 +413,24 @@
 				D0CCF2742D178B0400D13B7D /* JournalPage.swift in Sources */,
 				D069953B2D28FCC6009F90C1 /* Color.swift in Sources */,
 				D06E8B792D2463D2003A6400 /* ThirtyDayRating.swift in Sources */,
-				D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */,
+				D0CCF2722D17838C00D13B7D /* OldJournalEntries.swift in Sources */,
 				D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */,
 				D06E8B7D2D246678003A6400 /* MoodStreak.swift in Sources */,
 				D08EA3BC2D2DAFC500C37B24 /* NewMood.swift in Sources */,
 				D0CCF27A2D17BBBE00D13B7D /* MoodMap.swift in Sources */,
 				D08A946B2D2B97D300A1A87E /* User.swift in Sources */,
 				D08A945E2D2B6BDB00A1A87E /* LoginView.swift in Sources */,
+				95B2E0F02E52411A00D323D9 /* FirestoreManager.swift in Sources */,
 				D0DFEAB82D1F49C7000EA52A /* MapStyleConfig.swift in Sources */,
 				D08A94652D2B92DE00A1A87E /* ProfileView.swift in Sources */,
 				D0DFEAB12D1F1A3F000EA52A /* MoodSwings.swift in Sources */,
+				95B2E0EE2E523ED200D323D9 /* JournalEntries.swift in Sources */,
 				D08A94632D2B870100A1A87E /* RegistrationView.swift in Sources */,
 				D06E8B752D2462CB003A6400 /* MoodRing.swift in Sources */,
 				D0DD53072D2CB896002A5941 /* AuthViewModel.swift in Sources */,
 				D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */,
 				D08A94612D2B75B400A1A87E /* InputView.swift in Sources */,
+				95B2E0F22E52415E00D323D9 /* JournalEntriesViewModel.swift in Sources */,
 				D0DFEABC2D1F4B7F000EA52A /* MapStyleView.swift in Sources */,
 				D0EAADAD2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift in Sources */,
 				D08A94672D2B945C00A1A87E /* SettingsRowView.swift in Sources */,

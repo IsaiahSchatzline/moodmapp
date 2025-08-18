@@ -1,5 +1,5 @@
 import SwiftUI
-import SwiftData
+//import SwiftData
 import Charts
 
 struct MoodScore: View {

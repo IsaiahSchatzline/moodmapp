@@ -1,5 +1,5 @@
 import SwiftUI
-import SwiftData
+//import SwiftData
 import HalfASheet
 import MapKit
 
@@ -48,14 +48,15 @@ enum Emoji: String, CaseIterable {
 }
 
 struct ContentView: View {
-  @Environment(\.modelContext) private var context
-  @EnvironmentObject var viewModel: AuthViewModel
-  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
+//  @Environment(\.modelContext) private var context
+  @EnvironmentObject var authViewModel: AuthViewModel
+//  @StateObject private var viewModel = JournalEntriesViewModel()
+//  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
   @State private var showProfile = false
   
   var body: some View {
     Group {
-      if viewModel.userSession != nil {
+      if authViewModel.userSession != nil {
         TabView {
           NewMood()
             .tabItem {
@@ -88,6 +89,9 @@ struct ContentView: View {
         LoginView()
       }
     }
+//    .task {
+//      await viewModel.loadEntries(descending: true)
+//    }
   }
 }
 

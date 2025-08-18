@@ -1,12 +1,14 @@
 import SwiftUI
-import SwiftData
+//import SwiftData
 import MapKit
 
 struct SwipableButtonView: View {
   
-  @Environment(\.modelContext) private var context
+//  @Environment(\.modelContext) private var context
   
-  @Query(sort: \JournalEntries.dateOfEntry) var entries: [JournalEntries]
+//  @Query(sort: \JournalEntries.dateOfEntry) var entries: [JournalEntries]
+  @StateObject private var viewModel = JournalEntriesViewModel()
+  @EnvironmentObject var authViewModel: AuthViewModel
   @ObservedObject var locationManager = LocationManager()
   @State var animateGradient: Bool = false
   @Binding var moodTitle: String
@@ -122,39 +124,34 @@ struct SwipableButtonView: View {
     }
   }
   
-  func submitEntry(
-    moodTitle: String,
-    entry: String,
-    moodBar: Double,
-    emoji: Emoji,
-    location: CLLocationCoordinate2D?
-  ) {
+  func submitEntry(moodTitle: String, entry: String, moodBar: Double, emoji: Emoji, location: CLLocationCoordinate2D?) {
+    let userID = AuthViewModel().userSession?.uid ?? ""
+    
     let newEntry = JournalEntries(
+      id: UUID().uuidString,
+      userID: userID,
       moodTitle: moodTitle,
+      moodRating: Int(moodBar),
       entryThoughts: entry,
       emoji: emoji.rawValue,
       dateOfEntry: Date(),
-      moodRating: Int(moodBar),
       latitude: location?.latitude,
       longitude: location?.longitude
     )
     
-    JournalEntries.updateMoodRatingCount(entry: newEntry)
-    
-    do {
-      context.insert(newEntry)
-      try context.save()
-      print("Entry successfully saved.")
-    } catch {
-      print("Failed to save entry: \(error.localizedDescription)")
+    Task {
+      viewModel.authVM = authViewModel
+      await viewModel.addEntry(newEntry)
     }
-    
-    // Reset inputs
-    self.moodTitle = ""
-    self.entry = ""
-    self.moodBar = 5.0
-    self.selectedEmoji = .happy
   }
+  
+  func resetForm() {
+    moodTitle = ""
+    entry = ""
+    moodBar = 5.0
+    selectedEmoji = .happy
+  }
+  
   func resetSlider() {
     withAnimation {
       dragOffset = 0
