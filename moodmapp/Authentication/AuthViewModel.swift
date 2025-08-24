@@ -2,6 +2,9 @@ import Foundation
 import Firebase
 import FirebaseAuth
 import FirebaseFirestoreCombineSwift
+import FirebaseAuthCombineSwift
+import FirebaseCore
+import FirebaseCoreInternal
 
 protocol AuthenticationFormProtocol {
   var formIsValid: Bool { get }
@@ -35,9 +38,18 @@ class AuthViewModel: ObservableObject {
     do {
       let result = try await Auth.auth().createUser(withEmail: email, password: password)
       self.userSession = result.user
-      let user = User(userID: result.user.uid, fullname: fullname, email: email)
-      let encodedUser = try Firestore.Encoder().encode(user)
-      try await Firestore.firestore().collection("users").document(user.userID).setData(encodedUser)
+      
+      let userData: [String: Any] = [
+        "userID": result.user.uid,
+        "fullname": fullname,
+        "email": email
+      ]
+      
+      try await Firestore.firestore()
+        .collection("users")
+        .document(result.user.uid)
+        .setData(userData, merge: true)
+      
       await fetchUser()
     } catch {
       print("DEBUG: Faield to create user with error \(error.localizedDescription)")
@@ -66,9 +78,18 @@ class AuthViewModel: ObservableObject {
     }
     
     do {
-      let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
-      if snapshot.exists {
-        self.currentUser = try snapshot.data(as: User.self)
+      let snapshot = try await Firestore.firestore()
+        .collection("users")
+        .document(uid)
+        .getDocument()
+      
+      if let d = snapshot.data() {
+        let user = User(
+          userID: uid,
+          fullname: d["fullname"] as? String ?? "",
+          email: d["email"] as? String ?? ""
+        )
+        self.currentUser = user
         print("DEBUG: Successfully fetched user: \(self.currentUser?.fullname ?? "unknown")")
       } else {
         print("DEBUG: User document does not exist for uid: \(uid)")

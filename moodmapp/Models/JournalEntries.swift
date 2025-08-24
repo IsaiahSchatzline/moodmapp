@@ -3,7 +3,7 @@ import MapKit
 import FirebaseFirestore
 
 struct JournalEntries: Identifiable, Codable, Hashable {
-  @DocumentID var id: String?
+  var id: String?
   var userID: String
   var moodTitle: String
   var moodRating: Int

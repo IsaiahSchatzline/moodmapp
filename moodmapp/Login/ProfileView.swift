@@ -56,8 +56,15 @@ struct ProfileView: View {
                             title: "Delete Account",
                             tintColor: .red)
           }
-          
         }
+      }
+    } else {
+      VStack(spacing: 12) {
+        ProgressView()
+        Text("Loading profile…").font(.footnote).foregroundStyle(.secondary)
+      }
+      .task {
+        await viewModel.fetchUser()
       }
     }
   }

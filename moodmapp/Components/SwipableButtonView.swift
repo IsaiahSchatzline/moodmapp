@@ -125,7 +125,10 @@ struct SwipableButtonView: View {
   }
   
   func submitEntry(moodTitle: String, entry: String, moodBar: Double, emoji: Emoji, location: CLLocationCoordinate2D?) {
-    let userID = AuthViewModel().userSession?.uid ?? ""
+    guard let userID = authViewModel.userSession?.uid, !userID.isEmpty else {
+      print("No authenticated user; aborting submit.")
+      return
+    }
     
     let newEntry = JournalEntries(
       id: UUID().uuidString,
@@ -142,6 +145,7 @@ struct SwipableButtonView: View {
     Task {
       viewModel.authVM = authViewModel
       await viewModel.addEntry(newEntry)
+      resetForm()
     }
   }
   
