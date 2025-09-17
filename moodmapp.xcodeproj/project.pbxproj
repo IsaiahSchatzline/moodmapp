@@ -22,7 +22,6 @@
 		D08A94672D2B945C00A1A87E /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08A94662D2B945C00A1A87E /* SettingsRowView.swift */; };
 		D08A946B2D2B97D300A1A87E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08A946A2D2B97D300A1A87E /* User.swift */; };
 		D08EA3BC2D2DAFC500C37B24 /* NewMood.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EA3BB2D2DAFC500C37B24 /* NewMood.swift */; };
-		D0A2F0A82D1A4759003BF22A /* HalfASheet in Frameworks */ = {isa = PBXBuildFile; productRef = D0A2F0A72D1A4759003BF22A /* HalfASheet */; };
 		D0A2F0AA2D1AA1FF003BF22A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2F0A92D1AA1FF003BF22A /* LocationManager.swift */; };
 		D0CCF2722D17838C00D13B7D /* JournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2712D17838C00D13B7D /* JournalEntries.swift */; };
 		D0CCF2742D178B0400D13B7D /* JournalPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CCF2732D178B0300D13B7D /* JournalPage.swift */; };
@@ -104,7 +103,6 @@
 				D0DD52EB2D2C5F60002A5941 /* FirebaseFirestore in Frameworks */,
 				D0DD52D72D2C5F60002A5941 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				D0DD52F52D2C5F60002A5941 /* FirebaseInstallations in Frameworks */,
-				D0A2F0A82D1A4759003BF22A /* HalfASheet in Frameworks */,
 				D0DD52DB2D2C5F60002A5941 /* FirebaseAppCheck in Frameworks */,
 				D0DD52F32D2C5F60002A5941 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				D0DD52D92D2C5F60002A5941 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
@@ -312,7 +310,6 @@
 			);
 			name = moodmapp;
 			packageProductDependencies = (
-				D0A2F0A72D1A4759003BF22A /* HalfASheet */,
 				D0DD52D42D2C5F60002A5941 /* FirebaseAnalytics */,
 				D0DD52D62D2C5F60002A5941 /* FirebaseAnalyticsOnDeviceConversion */,
 				D0DD52D82D2C5F60002A5941 /* FirebaseAnalyticsWithoutAdIdSupport */,
@@ -367,7 +364,6 @@
 			);
 			mainGroup = D0EAADA02D160787001654F5;
 			packageReferences = (
-				D0A2F0A62D1A4759003BF22A /* XCRemoteSwiftPackageReference "HalfASheet" */,
 				D0DD52D32D2C5F60002A5941 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = D0EAADAA2D160787001654F5 /* Products */;
@@ -645,14 +641,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D0A2F0A62D1A4759003BF22A /* XCRemoteSwiftPackageReference "HalfASheet" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/franklynw/HalfASheet.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.2;
-			};
-		};
 		D0DD52D32D2C5F60002A5941 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -664,11 +652,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D0A2F0A72D1A4759003BF22A /* HalfASheet */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0A2F0A62D1A4759003BF22A /* XCRemoteSwiftPackageReference "HalfASheet" */;
-			productName = HalfASheet;
-		};
 		D0DD52D42D2C5F60002A5941 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0DD52D32D2C5F60002A5941 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

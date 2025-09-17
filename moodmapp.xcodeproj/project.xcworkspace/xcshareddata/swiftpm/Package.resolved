@@ -1,4 +1,5 @@
 {
+  "originHash" : "c63c63846d9c539229e96de38d6af51417e28c0ee9a0bc48bd0f0f19d923c329",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -73,15 +74,6 @@
       }
     },
     {
-      "identity" : "halfasheet",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/franklynw/HalfASheet.git",
-      "state" : {
-        "revision" : "4f43296b3722082dd5735521ee0fbf25e61cd21c",
-        "version" : "1.0.2"
-      }
-    },
-    {
       "identity" : "interop-ios-for-google-sdks",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
@@ -127,5 +119,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

@@ -146,19 +146,30 @@ struct NewMood: View {
           .offset(x: 0, y: -25)
         
       }
-      HalfASheet(isPresented: $isShowing, title: "mood thoughts") {
-        VStack {
-          Form {
-            TextField("thoughts...", text: $entry, axis: .vertical)
-              .lineLimit(14, reservesSpace: true)
+      .sheet(isPresented: $isShowing) {
+        NavigationStack {
+          VStack {
+            Form {
+              TextField("thoughts...", text: $entry, axis: .vertical)
+                .lineLimit(14, reservesSpace: true)
+            }
           }
-          
+          .navigationTitle("mood thoughts")
+          .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+              Button {
+                isShowing = false
+              } label: {
+                Text("Close")
+                  .font(.body.weight(.semibold))
+              }
+              .tint(.black)
+            }
+          }
         }
+        .presentationDetents([.fraction(0.9)])
+        .presentationDragIndicator(.visible)
       }
-      .height(.proportional(0.90))
-      .closeButtonColor(UIColor.black)
-      .contentInsets(EdgeInsets(top: 25, leading: 0, bottom: 0, trailing: 0))
-      
     }
     .ignoresSafeArea()
   }
