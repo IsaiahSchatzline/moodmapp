@@ -12,7 +12,15 @@ struct MoodMap: View {
   @State private var selectedMoodID: String?
   @State private var mapStyleConfig = MapStyleConfig()
   @State private var pickMapStyle = false
-  @State private var mapScope = Namespace().wrappedValue
+  @Namespace private var mapScope
+
+  // Allow other screens to open the map focused on a specific entry/coordinate
+  init(selectedMoodID: String? = nil, focusCoordinate: CLLocationCoordinate2D? = nil) {
+    if let focusCoordinate {
+      let cam = MapCamera(centerCoordinate: focusCoordinate, distance: 980, heading: 0, pitch: 45)
+      _position = State(initialValue: .camera(cam))
+    }
+  }
   
   var body: some View {
     NavigationStack {
@@ -21,6 +29,13 @@ struct MoodMap: View {
       }
       .safeAreaInset(edge: .bottom) {
         mapStyling
+      }
+      .sheet(item: $selectedMoodID) { moodID in
+        if let selectedEntry = viewModel.entries.first(where: { $0.id == moodID.id }) {
+          ViewEntry(entry: selectedEntry, hideMapButton: true)
+            .environmentObject(authViewModel)
+            .presentationDetents([.height(600)])
+        }
       }
       .mapScope(mapScope)
     }
@@ -46,24 +61,12 @@ struct MoodMap: View {
     .mapControls {
       MapScaleView()
     }
+    .ignoresSafeArea()
   }
   
-  // 4. Create a separate sheet view
-  private var entrySheet: some View {
-    EmptyView()
-      .sheet(item: $selectedMoodID) { moodID in
-        if let selectedEntry = viewModel.entries.first(where: { $0.id == moodID.id }) {
-          ViewEntry(entry: selectedEntry, hideMapButton: true)
-            .presentationDetents([.height(450)])
-        }
-      }
-  }
-  
-  // 5. Simplified moodPins view
   private var mapContent: some View {
     ZStack {
       markersAndControls
-      entrySheet
     }
     .navigationTitle("moodmapp")
     .toolbarBackground(.hidden, for: .navigationBar)

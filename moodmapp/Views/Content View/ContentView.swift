@@ -44,6 +44,16 @@ enum Emoji: String, CaseIterable {
   var combinedEmojiDisplay: String {
     return "\(self.rawValue) \(self.moodWord)"
   }
+  
+  var stackedEmojiDisplay: some View {
+    VStack {
+      Text(self.rawValue)
+        .font(.title)
+      Text(self.moodWord)
+        .font(.body)
+    }
+    .multilineTextAlignment(.center)
+  }
 }
 
 struct ContentView: View {

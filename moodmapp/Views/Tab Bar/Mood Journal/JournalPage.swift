@@ -2,8 +2,6 @@ import SwiftUI
 import MapKit
 
 struct JournalPage: View {
-//  @Environment(\.modelContext) var context
-//  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
   @State private var entryToEdit: JournalEntries?
   @State private var searchText: String = ""
   @StateObject private var viewModel = JournalEntriesViewModel()
@@ -96,10 +94,13 @@ struct JournalPage: View {
     List {
       ForEach(filteredEntries) { entry in
         EntryCell(entryModel: entry)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.vertical, 5)
+          .padding(.horizontal, 20)
+          .contentShape(Rectangle())
           .onTapGesture {
             entryToEdit = entry
           }
-          .padding()
       }
       .onDelete { indexSet in
         deleteEntry(at: indexSet)
@@ -170,8 +171,6 @@ struct EntryCell: View {
 }
 
 struct ViewEntry: View {
-  
-//  @Environment(\.modelContext) var context
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject var authViewModel: AuthViewModel
   @State var moodRating: Int = 5
@@ -223,7 +222,7 @@ struct ViewEntry: View {
           .onChange(of: selectedEmoji) { newValue in
             // keep local entry text fields in sync if needed
           }
-          .pickerStyle(MenuPickerStyle()) // Compact display
+          .pickerStyle(MenuPickerStyle())
           .accentColor(.black)
         }
         
@@ -240,11 +239,30 @@ struct ViewEntry: View {
         Section("Thoughts") {
           TextField("Thoughts", text: $entryThoughts, axis: .vertical)
         }
+        
+        Section {
+          Button {
+            Task { await saveChanges() }
+          } label: {
+            Text("Save")
+              .font(.headline)
+              .frame(maxWidth: .infinity)
+              .padding(.vertical, 10)
+              .background(
+                RoundedRectangle(cornerRadius: 12).fill(Color.green)
+              )
+              .foregroundStyle(.white)
+              .contentShape(Rectangle())
+          }
+          .buttonStyle(.plain)
+          .listRowBackground(Color.clear)
+        }
       }
       VStack {
         if !hideMapButton {
           // NavigationLink to navigate directly to MoodMap
-          NavigationLink(destination: MoodMap()) {
+          NavigationLink(destination: MoodMap(focusCoordinate: entry.moodPinLocation)
+            .environmentObject(authViewModel)) {
             Text("View On Map")
               .font(.headline)
               .foregroundStyle(.blue)
@@ -255,7 +273,7 @@ struct ViewEntry: View {
       .navigationBarTitleDisplayMode(.large)
       .toolbar {
         ToolbarItemGroup(placement: .topBarTrailing) {
-          Button("close") { dismiss() }
+          Button("Close") { dismiss() }
         }
       }
     }
