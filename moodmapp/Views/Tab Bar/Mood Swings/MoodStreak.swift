@@ -37,51 +37,48 @@ struct MoodStreak: View {
 
 func calculateStreaks(from entries: [JournalEntries]) -> (current: Int, longest: Int) {
   guard !entries.isEmpty else { return (0, 0) }
-  
   let calendar = Calendar.current
   let today = calendar.startOfDay(for: Date())
-  
-  // Extract dates and sort them in descending order
-  let dates = entries.compactMap { calendar.startOfDay(for: $0.dateOfEntry) }.sorted(by: >)
-  
-  var currentStreak = 0 // At least one day
-  var longestStreak = 0
-  var streakCounter = 0
-  var lastEntryDate = dates[0]
-  
-  // Check if the most recent entry is today
-  if calendar.isDate(lastEntryDate, inSameDayAs: today) {
-    // Already counted as part of the streak
-  } else if let difference = calendar.dateComponents([.day], from: lastEntryDate, to: today).day, difference == 1 {
-    // Extend streak to include yesterday
-    currentStreak = 1
-  } else {
-    // Reset streak if no entry for today or yesterday
-    return (0, longestStreak)
+  let dates = entries
+    .map { calendar.startOfDay(for: $0.dateOfEntry) }
+    .sorted(by: >)
+    .reduce(into: [Date]()) { acc, d in if acc.last != d { acc.append(d) } }
+
+  guard let mostRecent = dates.first else { return (0, 0) }
+  var longestStreak = 1
+  var run = 1
+  if dates.count > 1 {
+    for i in 1..<dates.count {
+      let prev = dates[i - 1]
+      let curr = dates[i]
+      let diff = calendar.dateComponents([.day], from: curr, to: prev).day ?? 0
+      if diff == 1 {
+        run += 1
+      } else if diff > 1 {
+        run = 1
+      }
+      if run > longestStreak { longestStreak = run }
+    }
   }
-  
-  for i in 1..<dates.count {
-    let currentDate = dates[i]
-    
-    // Check if the current date is exactly one day before the last entry
-    if let difference = calendar.dateComponents([.day], from: currentDate, to: lastEntryDate).day {
-      if difference == 1 {
-        // Continue the streak
-        streakCounter += 1
-        currentStreak = streakCounter
-      } else if difference > 1 {
-        // If there is more than 1 day gap, reset the streak to 1
-        streakCounter = 1
+
+  var currentStreak = 0
+  let startDiff = calendar.dateComponents([.day], from: mostRecent, to: today).day ?? Int.max
+  if startDiff <= 1 {
+    currentStreak = 1
+    if dates.count > 1 {
+      for i in 1..<dates.count {
+        let prev = dates[i - 1]
+        let curr = dates[i]
+        let diff = calendar.dateComponents([.day], from: curr, to: prev).day ?? 0
+        if diff == 1 {
+          currentStreak += 1
+        } else {
+          break
+        }
       }
     }
-    
-    // Update longest streak
-    longestStreak = max(longestStreak, streakCounter)
-    
-    // Update last entry date
-    lastEntryDate = currentDate
   }
-  
+
   return (currentStreak, longestStreak)
 }
 
