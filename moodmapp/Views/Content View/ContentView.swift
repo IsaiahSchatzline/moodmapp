@@ -1,5 +1,4 @@
 import SwiftUI
-//import SwiftData
 import HalfASheet
 import MapKit
 
@@ -48,10 +47,7 @@ enum Emoji: String, CaseIterable {
 }
 
 struct ContentView: View {
-//  @Environment(\.modelContext) private var context
   @EnvironmentObject var authViewModel: AuthViewModel
-//  @StateObject private var viewModel = JournalEntriesViewModel()
-//  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
   @State private var showProfile = false
   
   var body: some View {

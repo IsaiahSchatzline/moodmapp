@@ -113,4 +113,36 @@ class FirestoreManager {
       .document(entryID)
       .delete()
   }
+  
+  
+  // Deletes all journal entries in the user's subcollection in a single or multiple batches.
+  func deleteAllEntries(for userID: String) async throws {
+    let collectionRef = db.collection("users").document(userID).collection("journalEntries")
+    
+    // Fetch all documents (for moderate datasets). For very large datasets, consider pagination.
+    let snapshot = try await collectionRef.getDocuments()
+    guard !snapshot.documents.isEmpty else { return }
+    
+    // Batch delete in chunks of 400 to stay comfortably under the 500 write limit.
+    var batch = db.batch()
+    var ops = 0
+    
+    for doc in snapshot.documents {
+      batch.deleteDocument(doc.reference)
+      ops += 1
+      if ops == 400 {
+        try await batch.commit()
+        batch = db.batch()
+        ops = 0
+      }
+    }
+    if ops > 0 {
+      try await batch.commit()
+    }
+  }
+  
+  // Deletes the top-level user document (does not delete auth account).
+  func deleteUserDocument(uid: String) async throws {
+    try await db.collection("users").document(uid).delete()
+  }
 }

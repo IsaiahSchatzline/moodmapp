@@ -1,13 +1,8 @@
 import SwiftUI
-//import SwiftData
 import HalfASheet
 import MapKit
 
 struct NewMood: View {
-  
-//  @Environment(\.modelContext) private var context
-  
-//  @Query(sort: \JournalEntries.dateOfEntry) var entries: [JournalEntries]
   @StateObject private var viewModel = JournalEntriesViewModel()
   @ObservedObject var locationManager = LocationManager()
   @State var animateGradient: Bool = false

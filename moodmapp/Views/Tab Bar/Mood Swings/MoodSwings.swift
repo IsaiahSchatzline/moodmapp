@@ -1,10 +1,7 @@
 import SwiftUI
-//import SwiftData
 import Charts
 
 struct MoodSwings: View {
-//  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse)
-//  var journalEntries: [JournalEntries]
   @State private var filteredEntries: [JournalEntries] = []
   @State private var averageMoodRating: Double = 0.0
   @State private var selectedMood: String?

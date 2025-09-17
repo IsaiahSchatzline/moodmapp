@@ -1,10 +1,8 @@
 import SwiftUI
-//import SwiftData
 import MapKit
 
 struct SwipableButtonView: View {
   
-//  @Environment(\.modelContext) private var context
   
 //  @Query(sort: \JournalEntries.dateOfEntry) var entries: [JournalEntries]
   @StateObject private var viewModel = JournalEntriesViewModel()

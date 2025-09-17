@@ -1,13 +1,11 @@
 import SwiftUI
 import MapKit
-//import SwiftData
 
 extension String: @retroactive Identifiable {
   public var id: String { self }
 }
 
 struct MoodMap: View {
-  //  @Environment(\.modelContext) private var modelContext
   @StateObject private var viewModel = JournalEntriesViewModel()
   @EnvironmentObject var authViewModel: AuthViewModel
   @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)

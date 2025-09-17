@@ -67,8 +67,31 @@ class AuthViewModel: ObservableObject {
     }
   }
   
-  func deleteAccount() {
+  /// Permanently deletes the current user's data and authentication account.
+  /// This requires recent authentication; if you see `ERROR_REQUIRES_RECENT_LOGIN`,
+  /// reauthenticate the user before retrying.
+  func deleteAccount() async throws {
+    guard let user = Auth.auth().currentUser else {
+      throw NSError(domain: "AuthViewModel", code: 401,
+                    userInfo: [NSLocalizedDescriptionKey: "No authenticated user"])
+    }
+    let uid = user.uid
     
+    do {
+      // 1) Delete Firestore data (subcollection first, then user doc)
+      try await FirestoreManager.shared.deleteAllEntries(for: uid)
+      try await FirestoreManager.shared.deleteUserDocument(uid: uid)
+      
+      // 2) Delete the Firebase Auth user (may throw requires-recent-login)
+      try await user.delete()
+      
+      // 3) Clear local session state
+      self.userSession = nil
+      self.currentUser = nil
+    } catch {
+      print("DEBUG: Failed to delete account: \(error.localizedDescription)")
+      throw error
+    }
   }
   
   func fetchUser() async {
