@@ -1,18 +1,17 @@
 import SwiftUI
-import SwiftData
 import MapKit
 
 struct JournalPage: View {
-  @Environment(\.modelContext) var context
-  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
   @State private var entryToEdit: JournalEntries?
   @State private var searchText: String = ""
+  @StateObject private var viewModel = JournalEntriesViewModel()
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   var filteredEntries: [JournalEntries] {
     if searchText.isEmpty {
-      return entries
+      return viewModel.entries
     } else {
-      return entries.filter { entry in
+      return viewModel.entries.filter { entry in
         entry.moodTitle.lowercased().contains(searchText.lowercased()) ||
         entry.emoji.contains(searchText) ||
         "\(entry.moodRating)".contains(searchText) ||
@@ -62,37 +61,19 @@ struct JournalPage: View {
         .offset(x: 0, y: 25)
         
         // List of Journal Entries
-        List {
-          ForEach(filteredEntries) { entry in
-            EntryCell(entry: entry)
-              .onTapGesture {
-                entryToEdit = entry
-              }
-              .padding()
-          }
-          .onDelete { indexSet in
-            for index in indexSet {
-              context.delete(entries[index])
-            }
-          }
-          .listRowBackground(
-            RoundedRectangle(cornerRadius: 20)
-              .fill(Color(white: 1, opacity: 0.8))
-              .padding(.vertical, 5)
-              .padding(.horizontal, 20)
-              .overlay(RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.black, lineWidth: 2)
-                .padding(.vertical, 5)
-                .padding(.horizontal, 20)
-              )
-          )
-          .listRowSeparator(.hidden)
-        }
-        .listRowInsets(.init(top: 0, leading: 40, bottom: 0, trailing: 40))
+        entryList
         
       }
       .navigationTitle("moodjournal")
-      .sheet(item: $entryToEdit) { entry in ViewEntry(entry: entry, hideMapButton: false) }
+      .sheet(item: $entryToEdit, onDismiss: {
+        Task {
+          viewModel.authVM = authViewModel
+          await viewModel.loadEntries(descending: true)
+        }
+      }) { entry in
+        ViewEntry(entry: entry, hideMapButton: false)
+          .environmentObject(authViewModel)
+      }
       .scrollContentBackground(.hidden)
       .background(
         LinearGradient(
@@ -102,32 +83,78 @@ struct JournalPage: View {
         )
         .ignoresSafeArea()
       )
+      .task {
+        viewModel.authVM = authViewModel
+        await viewModel.loadEntries(descending: true)
+      }
+    }
+  }
+  
+  private var entryList: some View {
+    List {
+      ForEach(filteredEntries) { entry in
+        EntryCell(entryModel: entry)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.vertical, 5)
+          .padding(.horizontal, 20)
+          .contentShape(Rectangle())
+          .onTapGesture {
+            entryToEdit = entry
+          }
+      }
+      .onDelete { indexSet in
+        deleteEntry(at: indexSet)
+      }
+      .listRowBackground(
+        RoundedRectangle(cornerRadius: 20)
+          .fill(Color(white: 1, opacity: 0.8))
+          .padding(.vertical, 5)
+          .padding(.horizontal, 20)
+          .overlay(RoundedRectangle(cornerRadius: 20)
+            .stroke(Color.black, lineWidth: 2)
+            .padding(.vertical, 5)
+            .padding(.horizontal, 20)
+          )
+      )
+      .listRowSeparator(.hidden)
+    }
+    .listRowInsets(.init(top: 0, leading: 40, bottom: 0, trailing: 40))
+  }
+  
+  func deleteEntry(at offsets: IndexSet) {
+    Task {
+      viewModel.authVM = authViewModel
+      for index in offsets {
+        let entry = filteredEntries[index]
+        await viewModel.deleteEntry(entry)
+      }
     }
   }
 }
 
+
 struct EntryCell: View {
-  let entry: JournalEntries
+  let entryModel: JournalEntries
   @ObservedObject var locationManager = LocationManager()
   
   var body: some View {
     VStack(alignment: .leading) {
-      Text(entry.moodTitle) // Display the thoughts
+      Text(entryModel.moodTitle) // Display the thoughts
         .font(.title.bold())
         .padding(.bottom, 5)
       HStack {
-        Text(entry.emoji)
+        Text(entryModel.emoji)
           .font(.title2)
-        Text("\(entry.moodRating)") // Display the mood rating
+        Text("\(entryModel.moodRating)") // Display the mood rating
           .font(.title2)
           .foregroundStyle(.black)
       }
       .padding(.bottom, 5)
-      Text(dateFormatter.string(from: entry.dateOfEntry)) // Display the date
+      Text(dateFormatter.string(from: entryModel.dateOfEntry)) // Display the date
         .font(.subheadline)
         .foregroundStyle(.black)
       
-      if let latitude = entry.latitude, let longitude = entry.longitude {
+      if let latitude = entryModel.latitude, let longitude = entryModel.longitude {
         Text("latitude: \(latitude)")
           .font(.caption)
           .foregroundColor(.black)
@@ -139,21 +166,13 @@ struct EntryCell: View {
           .font(.caption)
           .foregroundColor(.red)
       }
-      
     }
   }
 }
 
 struct ViewEntry: View {
-  
-  enum emoji: String, CaseIterable {
-    case happy = "😊", joyful = "😄", excited = "🤩", content = "🙂", calm = "😌", relaxed = "🧘‍♀️", proud = "😎", hopeful = "🌟", grateful = "🙏", cheerful = "😁"
-    case sad = "😢", anxious = "😰", angry = "😡", irritable = "😤", depressed = "😞", frustrated = "😩", guilty = "😔", ashamed = "😳", lonely = "😕", hopeless = "😖"
-    case indifferent = "😐", confused = "🤔", nostalgic = "🥺", curious = "🤨", reflective = "🤯", tense = "😬", tired = "😴", bored = "😒", distracted = "😵", stressed = "😫"
-  }
-  @Environment(\.modelContext) var context
   @Environment(\.dismiss) private var dismiss
-  @Bindable var entry: JournalEntries
+  @EnvironmentObject var authViewModel: AuthViewModel
   @State var moodRating: Int = 5
   @State var dateOfEntry: Date = .now
   @State var entryThoughts: String = ""
@@ -161,9 +180,20 @@ struct ViewEntry: View {
   @State var updatedThoughts: String = ""
   @State var moodBar: Double = 5.0
   @State var showingCancelAlert: Bool = false
-  @State var selectedEmoji: emoji = emoji.content
+  @State var selectedEmoji: Emoji = .happy
   @State private var showingMap = false
+  var entry: JournalEntries
   var hideMapButton: Bool
+  
+  init(entry: JournalEntries, hideMapButton: Bool) {
+    self.entry = entry
+    self.hideMapButton = hideMapButton
+    _moodTitle = State(initialValue: entry.moodTitle)
+    _entryThoughts = State(initialValue: entry.entryThoughts)
+    _moodRating = State(initialValue: entry.moodRating)
+    _dateOfEntry = State(initialValue: entry.dateOfEntry)
+    _selectedEmoji = State(initialValue: Emoji(rawValue: entry.emoji) ?? .happy)
+  }
   
   var body: some View {
     NavigationStack {
@@ -171,12 +201,12 @@ struct ViewEntry: View {
         HStack {
           Text("Mood Title:")
           Spacer()
-          TextField("", text: $entry.moodTitle)
+          TextField("", text: $moodTitle)
         }
         HStack {
           Text("Mood Date:")
           Spacer()
-          DatePicker("", selection: $entry.dateOfEntry)
+          DatePicker("", selection: $dateOfEntry)
         }
         
         
@@ -184,15 +214,15 @@ struct ViewEntry: View {
         HStack {
           Text("Mood:")
           Spacer()
-          Picker("", selection: Binding(
-            get: { Emoji(rawValue: entry.emoji) ?? .happy },
-            set: { entry.emoji = $0.rawValue }
-          )) {
+          Picker("", selection: $selectedEmoji) {
             ForEach(Emoji.allCases, id: \.self) { moodEmoji in
               Text(moodEmoji.combinedEmojiDisplay)
             }
           }
-          .pickerStyle(MenuPickerStyle()) // Compact display
+          .onChange(of: selectedEmoji) { newValue in
+            // keep local entry text fields in sync if needed
+          }
+          .pickerStyle(MenuPickerStyle())
           .accentColor(.black)
         }
         
@@ -200,20 +230,39 @@ struct ViewEntry: View {
         
         // Mood Rating - Use a Slider or Stepper instead of TextField for Int
         HStack {
-          Text("Mood Rating: \(entry.moodRating)")
+          Text("Mood Rating: \(moodRating)")
           Spacer()
-          Stepper("", value: $entry.moodRating, in: 1...10)
+          Stepper("", value: $moodRating, in: 1...10)
         }
         
         // Thoughts - TextField for user input
         Section("Thoughts") {
-          TextField("Thoughts", text: $entry.entryThoughts, axis: .vertical)
+          TextField("Thoughts", text: $entryThoughts, axis: .vertical)
+        }
+        
+        Section {
+          Button {
+            Task { await saveChanges() }
+          } label: {
+            Text("Save")
+              .font(.headline)
+              .frame(maxWidth: .infinity)
+              .padding(.vertical, 10)
+              .background(
+                RoundedRectangle(cornerRadius: 12).fill(Color.green)
+              )
+              .foregroundStyle(.white)
+              .contentShape(Rectangle())
+          }
+          .buttonStyle(.plain)
+          .listRowBackground(Color.clear)
         }
       }
       VStack {
         if !hideMapButton {
           // NavigationLink to navigate directly to MoodMap
-          NavigationLink(destination: MoodMap(journalEntry: entry)) {
+          NavigationLink(destination: MoodMap(focusCoordinate: entry.moodPinLocation)
+            .environmentObject(authViewModel)) {
             Text("View On Map")
               .font(.headline)
               .foregroundStyle(.blue)
@@ -224,9 +273,37 @@ struct ViewEntry: View {
       .navigationBarTitleDisplayMode(.large)
       .toolbar {
         ToolbarItemGroup(placement: .topBarTrailing) {
-          Button("close") { dismiss() }
+          Button("Close") { dismiss() }
         }
       }
+    }
+  }
+  
+  private func buildUpdatedEntry() -> JournalEntries {
+    JournalEntries(
+      id: entry.id,
+      userID: entry.userID,
+      moodTitle: moodTitle,
+      moodRating: moodRating,
+      entryThoughts: entryThoughts,
+      emoji: selectedEmoji.rawValue,
+      dateOfEntry: dateOfEntry,
+      latitude: entry.latitude,
+      longitude: entry.longitude
+    )
+  }
+  
+  private func saveChanges() async {
+    guard let uid = authViewModel.userSession?.uid else {
+      print("DEBUG: No authenticated user; cannot save changes.")
+      return
+    }
+    let updated = buildUpdatedEntry()
+    do {
+      try await FirestoreManager.shared.saveEntry(updated, for: uid)
+      await MainActor.run { dismiss() }
+    } catch {
+      print("DEBUG: Failed to save entry:", error.localizedDescription)
     }
   }
 }

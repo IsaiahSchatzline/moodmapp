@@ -1,11 +1,10 @@
 import SwiftUI
-import SwiftData
 import Firebase
 
 @main
 struct Location_Based_Mood_TrackerApp: App {
   
-  @StateObject var viewModel = AuthViewModel()
+  @StateObject var authViewModel = AuthViewModel()
   
   init() {
     FirebaseApp.configure()
@@ -14,8 +13,7 @@ struct Location_Based_Mood_TrackerApp: App {
   var body: some Scene {
     WindowGroup {
       ContentView()
-        .environmentObject(viewModel)
+        .environmentObject(authViewModel)
     }
-    .modelContainer(for: [JournalEntries.self])
   }
 }

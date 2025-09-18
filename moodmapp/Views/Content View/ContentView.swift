@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftData
 import HalfASheet
 import MapKit
 
@@ -45,17 +44,25 @@ enum Emoji: String, CaseIterable {
   var combinedEmojiDisplay: String {
     return "\(self.rawValue) \(self.moodWord)"
   }
+  
+  var stackedEmojiDisplay: some View {
+    VStack {
+      Text(self.rawValue)
+        .font(.title)
+      Text(self.moodWord)
+        .font(.body)
+    }
+    .multilineTextAlignment(.center)
+  }
 }
 
 struct ContentView: View {
-  @Environment(\.modelContext) private var context
-  @EnvironmentObject var viewModel: AuthViewModel
-  @Query(sort: \JournalEntries.dateOfEntry, order: .reverse) var entries: [JournalEntries]
+  @EnvironmentObject var authViewModel: AuthViewModel
   @State private var showProfile = false
   
   var body: some View {
     Group {
-      if viewModel.userSession != nil {
+      if authViewModel.userSession != nil {
         TabView {
           NewMood()
             .tabItem {
@@ -88,6 +95,9 @@ struct ContentView: View {
         LoginView()
       }
     }
+//    .task {
+//      await viewModel.loadEntries(descending: true)
+//    }
   }
 }
 

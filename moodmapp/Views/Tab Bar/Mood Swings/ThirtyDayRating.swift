@@ -1,31 +1,18 @@
 import SwiftUI
-import SwiftData
 import Charts
 
 struct ThirtyDayRating: View {
   
   var journalEntries: [JournalEntries]
+  @StateObject private var viewModel = JournalEntriesViewModel()
   
   var body: some View {
+    let filteredEntries = viewModel.filterEntriesWithin30Days(entries: journalEntries)
     VStack {
-      
-      let average = calculateAverageMoodRating(for: journalEntries)
-      
-      Label("Mood Rating", systemImage: "chart.xyaxis.line")
-        .font(.title)
-        .bold()
-      Text("30 Day Average: \(String(format: "%.1f", average))")
-        .font(.subheadline)
-        .bold()
-        .foregroundStyle(Color.gray)
-      
-      
-      // Filter entries for the last 30 days beforehand
-      let filteredEntries = filterEntriesWithin30Days(entries: journalEntries)
+      averageMoodRating
       
       if filteredEntries.isEmpty {
-        Text("No mood data available in the last 30 days.")
-          .foregroundColor(.gray)
+        nilData
       } else {
         // Line chart displaying mood ratings over the past 30 days
         Chart {
@@ -75,6 +62,24 @@ struct ThirtyDayRating: View {
         .frame(height: 300)
       }
     }
+  }
+  
+  private var averageMoodRating: some View {
+    let average = calculateAverageMoodRating(for: journalEntries)
+    return VStack {
+      Label("Mood Rating", systemImage: "chart.xyaxis.line")
+        .font(.title)
+        .bold()
+      Text("30 Day Average: \(String(format: "%.1f", average))")
+        .font(.subheadline)
+        .bold()
+        .foregroundStyle(Color.gray)
+    }
+  }
+  
+  private var nilData: Text {
+    Text("No mood data available in the last 30 days.")
+      .foregroundColor(.gray)
   }
 }
 
