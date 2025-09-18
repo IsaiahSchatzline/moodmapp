@@ -12,7 +12,7 @@ struct Location_Based_Mood_TrackerApp: App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      ContentCoordinator()
         .environmentObject(authViewModel)
     }
   }

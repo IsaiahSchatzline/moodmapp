@@ -56,7 +56,7 @@ enum Emoji: String, CaseIterable {
   }
 }
 
-struct ContentView: View {
+struct ContentCoordinator: View {
   @EnvironmentObject var authViewModel: AuthViewModel
   @State private var showProfile = false
   
@@ -95,12 +95,9 @@ struct ContentView: View {
         LoginView()
       }
     }
-//    .task {
-//      await viewModel.loadEntries(descending: true)
-//    }
   }
 }
 
 #Preview {
-  ContentView()
+  ContentCoordinator()
 }

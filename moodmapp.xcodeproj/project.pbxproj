@@ -59,7 +59,7 @@
 		D0DFEAB82D1F49C7000EA52A /* MapStyleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DFEAB72D1F49C7000EA52A /* MapStyleConfig.swift */; };
 		D0DFEABC2D1F4B7F000EA52A /* MapStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DFEABB2D1F4B7F000EA52A /* MapStyleView.swift */; };
 		D0EAADAD2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */; };
-		D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAADAE2D160787001654F5 /* ContentView.swift */; };
+		D0EAADAF2D160787001654F5 /* ContentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAADAE2D160787001654F5 /* ContentCoordinator.swift */; };
 		D0EAADB12D160789001654F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0EAADB02D160789001654F5 /* Assets.xcassets */; };
 		D0EAADB42D160789001654F5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0EAADB32D160789001654F5 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -95,7 +95,7 @@
 		D0DFEABB2D1F4B7F000EA52A /* MapStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyleView.swift; sourceTree = "<group>"; };
 		D0EAADA92D160787001654F5 /* moodmapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moodmapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0EAADAC2D160787001654F5 /* Location_Based_Mood_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location_Based_Mood_TrackerApp.swift; sourceTree = "<group>"; };
-		D0EAADAE2D160787001654F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D0EAADAE2D160787001654F5 /* ContentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCoordinator.swift; sourceTree = "<group>"; };
 		D0EAADB02D160789001654F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0EAADB32D160789001654F5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,15 +172,6 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
-		D08A945C2D2B6B7F00A1A87E /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				D0F6225F2D2DBBC5008CD41E /* Content View */,
-				D08EA3BD2D2DB00F00C37B24 /* Tab Bar */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		D08A945F2D2B759100A1A87E /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,15 +193,17 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		D08EA3BD2D2DB00F00C37B24 /* Tab Bar */ = {
+		D08EA3BD2D2DB00F00C37B24 /* Features */ = {
 			isa = PBXGroup;
 			children = (
 				D0437D3E2D2726E7004E9E27 /* New Mood */,
 				D0437D3F2D2726FD004E9E27 /* Mood Journal */,
 				D0DFEAB62D1F4999000EA52A /* Mood Mapp */,
 				D04B281C2D21E2F40092673A /* Mood Swings */,
+				D08EA3BA2D2DAF5A00C37B24 /* Login */,
+				D0DD53052D2CB867002A5941 /* Models */,
 			);
-			path = "Tab Bar";
+			path = Features;
 			sourceTree = "<group>";
 		};
 		D0DD53052D2CB867002A5941 /* Models */ = {
@@ -276,30 +269,21 @@
 			children = (
 				D0DFEAB52D1F4977000EA52A /* App */,
 				D08A945F2D2B759100A1A87E /* Components */,
-				D08A945C2D2B6B7F00A1A87E /* Views */,
-				D0DD53052D2CB867002A5941 /* Models */,
-				D08EA3BA2D2DAF5A00C37B24 /* Login */,
 				D08A945A2D2B6B7100A1A87E /* Authentication */,
 				D0DFEAB42D1F4955000EA52A /* Services */,
-				D0EAADB22D160789001654F5 /* Preview Content */,
+				D0EAADB22D160789001654F5 /* Resources */,
+				D08EA3BD2D2DB00F00C37B24 /* Features */,
+				D0EAADAE2D160787001654F5 /* ContentCoordinator.swift */,
 			);
 			path = moodmapp;
 			sourceTree = "<group>";
 		};
-		D0EAADB22D160789001654F5 /* Preview Content */ = {
+		D0EAADB22D160789001654F5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				D0EAADB32D160789001654F5 /* Preview Assets.xcassets */,
 			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		D0F6225F2D2DBBC5008CD41E /* Content View */ = {
-			isa = PBXGroup;
-			children = (
-				D0EAADAE2D160787001654F5 /* ContentView.swift */,
-			);
-			path = "Content View";
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -424,7 +408,7 @@
 				D08A94632D2B870100A1A87E /* RegistrationView.swift in Sources */,
 				D06E8B752D2462CB003A6400 /* MoodRing.swift in Sources */,
 				D0DD53072D2CB896002A5941 /* AuthViewModel.swift in Sources */,
-				D0EAADAF2D160787001654F5 /* ContentView.swift in Sources */,
+				D0EAADAF2D160787001654F5 /* ContentCoordinator.swift in Sources */,
 				D08A94612D2B75B400A1A87E /* InputView.swift in Sources */,
 				95B2E0F22E52415E00D323D9 /* JournalEntriesViewModel.swift in Sources */,
 				D0DFEABC2D1F4B7F000EA52A /* MapStyleView.swift in Sources */,
@@ -565,7 +549,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"moodmapp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"moodmapp/Resources\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = moodmapp.plist;
@@ -602,7 +586,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"moodmapp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"moodmapp/Resources\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = moodmapp.plist;
