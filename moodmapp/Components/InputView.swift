@@ -16,23 +16,25 @@ struct InputView: View {
     self.isSecureField = isSecureField
   }
   
-  
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
-      Text(title)
-        .foregroundStyle(Color(.darkGray))
-        .fontWeight(.semibold)
-        .font(.footnote)
-      
+      fieldTitle
       if isSecureField {
         SecureField(placeholder, text: $text)
-          .font(.system(size: 14))
+          .font(.subheadline)
       } else {
         TextField(placeholder, text: $text)
-          .font(.system(size: 14))
+          .font(.subheadline)
       }
       Divider()
     }
+  }
+  
+  private var fieldTitle: Text {
+    Text(title)
+      .foregroundStyle(Color(.darkGray))
+      .fontWeight(.semibold)
+      .font(.caption)
   }
 }
 #Preview {

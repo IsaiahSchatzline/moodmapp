@@ -7,13 +7,15 @@ class JournalEntriesViewModel: ObservableObject {
   @Published var entry: JournalEntries!
   @Published var filteredEntries: [JournalEntries] = []
   @Published var isLoading = false
-//  private let authVM = AuthViewModel()
   static var moodRatingCount: [Int: Int] = [:]
   internal var authVM: AuthViewModel
   
-  // Initialize with the shared AuthViewModel
-  init(authViewModel: AuthViewModel = AuthViewModel.shared) {
-    self.authVM = authViewModel
+  init(authViewModel: AuthViewModel? = nil) {
+    if let authViewModel {
+      self.authVM = authViewModel
+    } else {
+      self.authVM = AuthViewModel.shared
+    }
   }
   
   func loadEntries(descending: Bool = true) async {

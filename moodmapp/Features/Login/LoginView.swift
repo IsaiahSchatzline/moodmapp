@@ -67,7 +67,7 @@ struct LoginView: View {
             Text("Sign up")
               .fontWeight(.bold)
           }
-          .font(.system(size: 14))
+          .font(.subheadline)
         }
       }
     }

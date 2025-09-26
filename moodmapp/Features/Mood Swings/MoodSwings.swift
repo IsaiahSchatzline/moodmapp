@@ -12,7 +12,7 @@ struct MoodSwings: View {
   var body: some View {
     NavigationStack {
       ZStack {
-        LinearGradient.rainbow
+        LinearGradient.verticalRainbow
         .ignoresSafeArea()
         ScrollView {
           VStack {

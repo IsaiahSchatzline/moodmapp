@@ -219,7 +219,7 @@ struct ViewEntry: View {
               Text(moodEmoji.combinedEmojiDisplay)
             }
           }
-          .onChange(of: selectedEmoji) { newValue in
+          .onChange(of: selectedEmoji) {
             // keep local entry text fields in sync if needed
           }
           .pickerStyle(MenuPickerStyle())

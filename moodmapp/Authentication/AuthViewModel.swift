@@ -122,3 +122,44 @@ class AuthViewModel: ObservableObject {
     }
   }
 }
+
+
+extension AuthViewModel {
+  /// Creates an issue document in Firestore for the current user.
+  @MainActor
+  func reportAnIssue(_ text: String) async -> Bool {
+    guard let user = Auth.auth().currentUser else {
+      return false
+    }
+
+    let uid = user.uid
+    let db = Firestore.firestore()
+
+    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+    let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+    let system = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
+    let model = UIDevice.current.model
+
+    let payload: [String: Any] = [
+      "userID": uid,
+      "email": currentUser?.email ?? user.email ?? "",
+      "fullname": currentUser?.fullname ?? "",
+      "issue": text,
+      "createdAt": FieldValue.serverTimestamp(),
+      "appVersion": appVersion,
+      "build": build,
+      "system": system,
+      "device": model
+    ]
+
+    do {
+      let ref = db.collection("issues").document()
+      try await ref.setData(payload)
+      print("DEBUG: Issue submitted as \(ref.documentID)")
+      return true
+    } catch {
+      print("DEBUG: Failed to submit issue: \(error.localizedDescription)")
+      return false
+    }
+  }
+}

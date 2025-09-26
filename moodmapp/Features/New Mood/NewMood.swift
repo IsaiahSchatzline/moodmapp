@@ -1,5 +1,4 @@
 import SwiftUI
-import HalfASheet
 import MapKit
 
 struct NewMood: View {
@@ -39,8 +38,15 @@ struct NewMood: View {
         emojiSheetOptions
         
         //Submit Button
-        SwipableButtonView(moodTitle: $moodTitle, selectedEmoji: $selectedEmoji, moodBar: $moodBar, entry: $entry)
-          .offset(x: 0, y: -25)
+        ButtonSlider(
+          journalViewModel: viewModel,
+          locationManager: locationManager,
+          moodTitle: $moodTitle,
+          selectedEmoji: $selectedEmoji,
+          moodBar: $moodBar,
+          entry: $entry
+        )
+        .offset(x: 0, y: -25)
         
       }
       .sheet(isPresented: $isShowing) {
@@ -217,7 +223,7 @@ private struct EmojiGridSheet: View {
   var body: some View {
     NavigationView {
       ZStack {
-        LinearGradient.rainbow
+        LinearGradient.verticalRainbow
           .ignoresSafeArea()
         ScrollView {
           LazyVGrid(columns: columns, spacing: 12) {

@@ -28,7 +28,7 @@ extension Color {
 }
 
 extension LinearGradient {
-  static var rainbow: LinearGradient {
+  static var verticalRainbow: LinearGradient {
     LinearGradient(gradient: Gradient(colors: [
       Color(hex: "#5ECC5E"),   // Moderate Green (Comfortable)
       Color(hex: "#D8C91A"),   // Warm Yellow (Neutral)
@@ -37,5 +37,16 @@ extension LinearGradient {
       Color(hex: "#7A5FBA"),   // Dark Violet (Angry)
       Color(hex: "#7AD4D1")    // Moderate Blue (Calm)
     ]), startPoint: .top, endPoint: .bottom)
+  }
+  
+  static var horizontalRainbow: LinearGradient {
+    LinearGradient(gradient: Gradient(colors: [
+      Color(hex: "#5ECC5E"),   // Moderate Green (Comfortable)
+      Color(hex: "#D8C91A"),   // Warm Yellow (Neutral)
+      Color(hex: "#D88E73"),   // Medium Orange (Energetic)
+      Color(hex: "#D86C73"),   // Moderate Red (Romantic)
+      Color(hex: "#7A5FBA"),   // Dark Violet (Angry)
+      Color(hex: "#7AD4D1")    // Moderate Blue (Calm)
+    ]), startPoint: .leading, endPoint: .trailing)
   }
 }

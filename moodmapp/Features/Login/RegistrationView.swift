@@ -86,7 +86,7 @@ struct RegistrationView: View {
           Text("Sign in")
             .fontWeight(.bold)
         }
-        .font(.system(size: 14))
+        .font(.subheadline)
         .offset(x: 0, y: -20)
       }
     }

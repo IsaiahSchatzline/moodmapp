@@ -1,5 +1,4 @@
 import SwiftUI
-import HalfASheet
 import MapKit
 
 enum Emoji: String, CaseIterable {
