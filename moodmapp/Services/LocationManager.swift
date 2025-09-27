@@ -12,7 +12,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     locationManager.startUpdatingLocation()
   }
   
-  // CLLocationManagerDelegate method
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if locationManager.authorizationStatus == .authorizedWhenInUse ||
         locationManager.authorizationStatus == .authorizedAlways {

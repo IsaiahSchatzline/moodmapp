@@ -84,7 +84,7 @@ class AuthViewModel: ObservableObject {
     
     do {
       try await FirestoreManager.shared.deleteAllEntries(for: uid)
-      try await FirestoreManager.shared.deleteUserDocument(uid: uid)
+      try await FirestoreManager.shared.deleteUserDocument(userID: uid)
       try await user.delete()
       self.userSession = nil
       self.currentUser = nil
