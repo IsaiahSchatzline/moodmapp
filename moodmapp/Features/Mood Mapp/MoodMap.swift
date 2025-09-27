@@ -6,8 +6,7 @@ extension String: @retroactive Identifiable {
 }
 
 struct MoodMap: View {
-  @StateObject private var viewModel = JournalEntriesViewModel()
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @ObservedObject private var viewModel: JournalEntriesViewModel
   @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
   @State private var selectedMoodID: String?
   @State private var mapStyleConfig = MapStyleConfig()
@@ -15,7 +14,8 @@ struct MoodMap: View {
   @Namespace private var mapScope
 
   // Allow other screens to open the map focused on a specific entry/coordinate
-  init(selectedMoodID: String? = nil, focusCoordinate: CLLocationCoordinate2D? = nil) {
+  init(selectedMoodID: String? = nil, focusCoordinate: CLLocationCoordinate2D? = nil, viewModel: JournalEntriesViewModel) {
+    self.viewModel = viewModel
     if let focusCoordinate {
       let cam = MapCamera(centerCoordinate: focusCoordinate, distance: 980, heading: 0, pitch: 45)
       _position = State(initialValue: .camera(cam))
@@ -32,8 +32,7 @@ struct MoodMap: View {
       }
       .sheet(item: $selectedMoodID) { moodID in
         if let selectedEntry = viewModel.entries.first(where: { $0.id == moodID.id }) {
-          ViewEntry(entry: selectedEntry, hideMapButton: true)
-            .environmentObject(authViewModel)
+          ViewEntry(entry: selectedEntry, hideMapButton: true, viewModel: viewModel)
             .presentationDetents([.height(600)])
         }
       }
@@ -71,7 +70,7 @@ struct MoodMap: View {
     .navigationTitle("moodmapp")
     .toolbarBackground(.hidden, for: .navigationBar)
     .task {
-      viewModel.authVM = authViewModel
+//      viewModel.authViewModelVM = authViewModel
       await viewModel.loadEntries(descending: false)
     }
   }
@@ -113,8 +112,4 @@ struct MoodMap: View {
     position = .camera(camera)
     selectedMoodID = entry.id
   }
-}
-
-#Preview {
-  MoodMap()
 }

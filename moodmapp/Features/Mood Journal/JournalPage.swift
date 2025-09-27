@@ -4,8 +4,7 @@ import MapKit
 struct JournalPage: View {
   @State private var entryToEdit: JournalEntries?
   @State private var searchText: String = ""
-  @StateObject private var viewModel = JournalEntriesViewModel()
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @ObservedObject var viewModel: JournalEntriesViewModel
   
   var filteredEntries: [JournalEntries] {
     if searchText.isEmpty {
@@ -67,12 +66,11 @@ struct JournalPage: View {
       .navigationTitle("moodjournal")
       .sheet(item: $entryToEdit, onDismiss: {
         Task {
-          viewModel.authVM = authViewModel
+//          viewModel.authVM = authViewModel
           await viewModel.loadEntries(descending: true)
         }
       }) { entry in
-        ViewEntry(entry: entry, hideMapButton: false)
-          .environmentObject(authViewModel)
+        ViewEntry(entry: entry, hideMapButton: false, viewModel: viewModel)
       }
       .scrollContentBackground(.hidden)
       .background(
@@ -84,7 +82,7 @@ struct JournalPage: View {
         .ignoresSafeArea()
       )
       .task {
-        viewModel.authVM = authViewModel
+//        viewModel.authVM = authViewModel
         await viewModel.loadEntries(descending: true)
       }
     }
@@ -123,7 +121,7 @@ struct JournalPage: View {
   
   func deleteEntry(at offsets: IndexSet) {
     Task {
-      viewModel.authVM = authViewModel
+//      viewModel.authVM = authViewModel
       for index in offsets {
         let entry = filteredEntries[index]
         await viewModel.deleteEntry(entry)
@@ -172,7 +170,6 @@ struct EntryCell: View {
 
 struct ViewEntry: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject var authViewModel: AuthViewModel
   @State var moodRating: Int = 5
   @State var dateOfEntry: Date = .now
   @State var entryThoughts: String = ""
@@ -182,12 +179,14 @@ struct ViewEntry: View {
   @State var showingCancelAlert: Bool = false
   @State var selectedEmoji: Emoji = .happy
   @State private var showingMap = false
+  @ObservedObject var viewModel: JournalEntriesViewModel
   var entry: JournalEntries
   var hideMapButton: Bool
   
-  init(entry: JournalEntries, hideMapButton: Bool) {
+  init(entry: JournalEntries, hideMapButton: Bool, viewModel: JournalEntriesViewModel) {
     self.entry = entry
     self.hideMapButton = hideMapButton
+    self.viewModel = viewModel
     _moodTitle = State(initialValue: entry.moodTitle)
     _entryThoughts = State(initialValue: entry.entryThoughts)
     _moodRating = State(initialValue: entry.moodRating)
@@ -261,8 +260,7 @@ struct ViewEntry: View {
       VStack {
         if !hideMapButton {
           // NavigationLink to navigate directly to MoodMap
-          NavigationLink(destination: MoodMap(focusCoordinate: entry.moodPinLocation)
-            .environmentObject(authViewModel)) {
+          NavigationLink(destination: MoodMap(focusCoordinate: entry.moodPinLocation, viewModel: viewModel)) {
             Text("View On Map")
               .font(.headline)
               .foregroundStyle(.blue)
@@ -294,7 +292,7 @@ struct ViewEntry: View {
   }
   
   private func saveChanges() async {
-    guard let uid = authViewModel.userSession?.uid else {
+    guard let uid = viewModel.authVM.userSession?.uid else {
       print("DEBUG: No authenticated user; cannot save changes.")
       return
     }
@@ -308,10 +306,6 @@ struct ViewEntry: View {
   }
 }
 
-
-
-
-
 var dateFormatter: DateFormatter {
   let stringToDateformatter = DateFormatter()
   stringToDateformatter.dateFormat = "yyyy/MM/dd HH:mm"
@@ -321,11 +315,4 @@ var dateFormatter: DateFormatter {
   dateToStringFormatter.dateStyle = .short
   dateToStringFormatter.locale = Locale(identifier: "en_US")
   return dateToStringFormatter // 5/1/19, 10:30 PM
-}
-
-
-
-
-#Preview {
-  JournalPage()
 }

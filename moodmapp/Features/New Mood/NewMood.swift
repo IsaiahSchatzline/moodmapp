@@ -2,7 +2,7 @@ import SwiftUI
 import MapKit
 
 struct NewMood: View {
-  @StateObject private var viewModel = JournalEntriesViewModel()
+  @ObservedObject var viewModel: JournalEntriesViewModel
   @ObservedObject var locationManager = LocationManager()
   @State var animateGradient: Bool = false
   @State var moodTitle: String = ""
@@ -39,7 +39,7 @@ struct NewMood: View {
         
         //Submit Button
         ButtonSlider(
-          journalViewModel: viewModel,
+          viewModel: viewModel,
           locationManager: locationManager,
           moodTitle: $moodTitle,
           selectedEmoji: $selectedEmoji,
@@ -242,8 +242,4 @@ private struct EmojiGridSheet: View {
       .navigationBarTitleDisplayMode(.inline)
     }
   }
-}
-
-#Preview {
-  NewMood()
 }

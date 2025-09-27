@@ -6,8 +6,7 @@ struct MoodSwings: View {
   @State private var averageMoodRating: Double = 0.0
   @State private var selectedMood: String?
   @State private var selectedMoodPercentage: Double?
-  @StateObject private var viewModel = JournalEntriesViewModel()
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @ObservedObject var viewModel: JournalEntriesViewModel
   
   var body: some View {
     NavigationStack {
@@ -62,7 +61,7 @@ struct MoodSwings: View {
         }
       )
       .task {
-        viewModel.authVM = authViewModel
+//        viewModel.authViewModelVM = authViewModel
         await viewModel.loadEntries(descending: true)
       }
     }
@@ -100,8 +99,5 @@ struct MoodSwings: View {
     let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
     return entries.filter { $0.dateOfEntry >= thirtyDaysAgo }
   }
-}
-#Preview {
-  MoodSwings()
 }
 

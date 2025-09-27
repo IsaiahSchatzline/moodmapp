@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct ButtonSlider: View {
-  @EnvironmentObject var authViewModel: AuthViewModel
-  @ObservedObject var journalViewModel: JournalEntriesViewModel
+  @ObservedObject var viewModel: JournalEntriesViewModel
   @ObservedObject var locationManager: LocationManager
   
   @Binding var moodTitle: String
@@ -18,13 +17,13 @@ struct ButtonSlider: View {
   let circleDiameter: CGFloat = 60
   let threshold: CGFloat = 250
   
-  init(journalViewModel: JournalEntriesViewModel, locationManager: LocationManager, moodTitle: Binding<String>, selectedEmoji: Binding<Emoji>, moodBar: Binding<Double>, entry: Binding<String>) {
+  init(viewModel: JournalEntriesViewModel, locationManager: LocationManager, moodTitle: Binding<String>, selectedEmoji: Binding<Emoji>, moodBar: Binding<Double>, entry: Binding<String>) {
     self.locationManager = locationManager
     self._moodTitle = moodTitle
     self._selectedEmoji = selectedEmoji
     self._moodBar = moodBar
     self._entry = entry
-    self.journalViewModel = journalViewModel
+    self.viewModel = viewModel
   }
   
   var body: some View {
@@ -106,7 +105,7 @@ struct ButtonSlider: View {
   }
   
   private func handleSubmission() {
-    guard let userID = authViewModel.userSession?.uid, !userID.isEmpty else {
+    guard let userID = viewModel.authVM.userSession?.uid, !userID.isEmpty else {
       print("No authenticated user; aborting submit.")
       return
     }
@@ -125,7 +124,7 @@ struct ButtonSlider: View {
     
     // Start a Task for the async operation
     Task { @MainActor in
-      await journalViewModel.addEntry(newEntry)
+      await viewModel.addEntry(newEntry)
     }
     
     // Update UI immediately

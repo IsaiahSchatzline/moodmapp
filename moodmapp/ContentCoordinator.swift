@@ -57,41 +57,53 @@ enum Emoji: String, CaseIterable {
 
 struct ContentCoordinator: View {
   @EnvironmentObject var authViewModel: AuthViewModel
+  @StateObject private var journalViewModel = JournalEntriesViewModel()
   @State private var showProfile = false
   
   var body: some View {
-    Group {
-      if authViewModel.userSession != nil {
-        TabView {
-          NewMood()
-            .tabItem {
-              Image(systemName: "applepencil")
-              Text("New Mood")
-            }
-          
-          JournalPage()
-            .tabItem {
-              Image(systemName: "book")
-              Text("Mood Journal")
-            }
-          
-          MoodMap()
-            .tabItem {
-              Image(systemName: "map")
-              Text("Mood Map")
-            }
-          
-          MoodSwings()
-            .tabItem {
-              Image(systemName: "chart.pie.fill")
-              Text("Mood Swings")
-            }
+    ZStack {
+      Group {
+        if authViewModel.userSession != nil {
+          TabView {
+            NewMood(viewModel: journalViewModel)
+              .tabItem {
+                Image(systemName: "applepencil")
+                Text("New Mood")
+              }
+            
+            JournalPage(viewModel: journalViewModel)
+              .tabItem {
+                Image(systemName: "book")
+                Text("Mood Journal")
+              }
+            
+            MoodMap(viewModel: journalViewModel)
+              .tabItem {
+                Image(systemName: "map")
+                Text("Mood Map")
+              }
+            
+            MoodSwings(viewModel: journalViewModel)
+              .tabItem {
+                Image(systemName: "chart.pie.fill")
+                Text("Mood Swings")
+              }
+          }
+          .onAppear {
+            CLLocationManager().requestWhenInUseAuthorization()
+          }
+        } else {
+          LoginView()
         }
-        .onAppear {
-          CLLocationManager().requestWhenInUseAuthorization()
-        }
-      } else {
-        LoginView()
+      }
+      if authViewModel.showToast, let message = authViewModel.toastMessage {
+        ToastBanner(
+          message: message,
+          isSuccess: authViewModel.toastIsSuccess,
+          onDismiss: { authViewModel.showToast = false }
+        )
+        .transition(.move(edge: .bottom))
+        .padding(.bottom, 20)
       }
     }
   }

@@ -2,9 +2,6 @@ import Foundation
 import Firebase
 import FirebaseAuth
 import FirebaseFirestoreCombineSwift
-import FirebaseAuthCombineSwift
-import FirebaseCore
-import FirebaseCoreInternal
 
 protocol AuthenticationFormProtocol {
   var formIsValid: Bool { get }
@@ -14,11 +11,13 @@ protocol AuthenticationFormProtocol {
 class AuthViewModel: ObservableObject {
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
+  @Published var toastMessage: String?
+  @Published var toastIsSuccess: Bool = false
+  @Published var showToast: Bool = false
   static let shared = AuthViewModel()
   
   init() {
     self.userSession = Auth.auth().currentUser
-    
     Task {
       await fetchUser()
     }
@@ -29,8 +28,11 @@ class AuthViewModel: ObservableObject {
       let result = try await Auth.auth().signIn(withEmail: email, password: password)
       self.userSession = result.user
       await fetchUser()
+      showToastNotification(message: "Successfully signed in", isSuccess: true)
     } catch {
-      print("DEBUG: Failed to log in with error \(error.localizedDescription)")
+      let errorMessage = "Failed to sign in: \(error.localizedDescription)"
+      showToastNotification(message: errorMessage, isSuccess: false)
+      throw error
     }
   }
   
@@ -51,9 +53,10 @@ class AuthViewModel: ObservableObject {
         .setData(userData, merge: true)
       
       await fetchUser()
+      showToastNotification(message: "Welcome to MoodMapp!", isSuccess: true)
     } catch {
-      print("DEBUG: Faield to create user with error \(error.localizedDescription)")
-      throw error
+      print("DEBUG: Failed to create account with error \(error.localizedDescription)")
+      showToastNotification(message: "Failed to create account. Try again.", isSuccess: false)
     }
   }
   
@@ -62,8 +65,10 @@ class AuthViewModel: ObservableObject {
       try Auth.auth().signOut()
       self.userSession = nil
       self.currentUser = nil
+      showToastNotification(message: "Successfully signed out", isSuccess: true)
     } catch {
       print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
+      showToastNotification(message: "Failed to sign out. Try again.", isSuccess: false)
     }
   }
   
@@ -78,18 +83,15 @@ class AuthViewModel: ObservableObject {
     let uid = user.uid
     
     do {
-      // 1) Delete Firestore data (subcollection first, then user doc)
       try await FirestoreManager.shared.deleteAllEntries(for: uid)
       try await FirestoreManager.shared.deleteUserDocument(uid: uid)
-      
-      // 2) Delete the Firebase Auth user (may throw requires-recent-login)
       try await user.delete()
-      
-      // 3) Clear local session state
       self.userSession = nil
       self.currentUser = nil
+      showToastNotification(message: "Account successfully deleted", isSuccess: true)
     } catch {
       print("DEBUG: Failed to delete account: \(error.localizedDescription)")
+      showToastNotification(message: "Failed to delete account: \(error.localizedDescription)", isSuccess: false)
       throw error
     }
   }
@@ -156,10 +158,22 @@ extension AuthViewModel {
       let ref = db.collection("issues").document()
       try await ref.setData(payload)
       print("DEBUG: Issue submitted as \(ref.documentID)")
+      showToastNotification(message: "Issue reported successfully.\nThank you for your help!", isSuccess: true)
       return true
     } catch {
-      print("DEBUG: Failed to submit issue: \(error.localizedDescription)")
+      print("DEBUG: Failed to report issue with error \(error.localizedDescription)")
+      showToastNotification(message: "Failed to report issue. Try again.", isSuccess: false)
       return false
+    }
+  }
+  
+  func showToastNotification(message: String, isSuccess: Bool) {
+    self.toastMessage = message
+    self.toastIsSuccess = isSuccess
+    self.showToast = true
+    Task { @MainActor in
+      try? await Task.sleep(nanoseconds: 5_000_000_000)
+      self.showToast = false
     }
   }
 }

@@ -4,9 +4,9 @@ struct ReportIssueView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var issue: String = ""
   let viewModel: AuthViewModel
-  let onComplete: (Bool) -> Void
+  let onComplete: ((Bool) -> Void)?
 
-  init(issue: String = "", viewModel: AuthViewModel, onComplete: @escaping (Bool) -> Void) {
+  init(issue: String = "", viewModel: AuthViewModel, onComplete: ((Bool) -> Void)? = nil) {
     self._issue = State(initialValue: issue)
     self.viewModel = viewModel
     self.onComplete = onComplete
@@ -25,7 +25,7 @@ struct ReportIssueView: View {
           Button {
             Task {
               let submission = await viewModel.reportAnIssue(issue.trimmingCharacters(in: .whitespacesAndNewlines))
-              onComplete(submission)
+              onComplete?(submission)
               dismiss()
               
             }

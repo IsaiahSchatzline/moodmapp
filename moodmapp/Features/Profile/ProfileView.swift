@@ -2,10 +2,11 @@ import SwiftUI
 
 struct ProfileView: View {
   @EnvironmentObject var viewModel: AuthViewModel
-  @State private var showDeleteAlert: Bool = false
+  @State private var showDeleteSheet: Bool = false
+  @State private var showSignOutAlert: Bool = false
   @State private var showReportIssueSheet: Bool = false
-  @State private var isIssueReported = false
-  @State private var toastMessage: String = ""
+  @State private var deleteConfirmationText: String = ""
+  
   var body: some View {
     ZStack {
       if let user = viewModel.currentUser {
@@ -47,15 +48,21 @@ struct ProfileView: View {
           }
           Section("Account") {
             Button {
-              viewModel.signOut()
+              showSignOutAlert = true
             } label: {
               ButtonRow(imageName: "arrow.left.circle.fill",
                               title: "Sign Out",
                               tintColor: .red)
             }
+            .alert("Did you mean to sign out?", isPresented: $showSignOutAlert) {
+              Button("Cancel", role: .cancel) { }
+              Button("Yes, sign out", role: .destructive) { viewModel.signOut() }
+            } message: {
+              Text("Are you sure you want to sign out?")
+            }
             
             Button {
-              showDeleteAlert = true
+              showDeleteSheet = true
             } label: {
               ButtonRow(imageName: "xmark.circle.fill",
                               title: "Delete Account",
@@ -74,21 +81,58 @@ struct ProfileView: View {
           }
         }
         .sheet(isPresented: $showReportIssueSheet) {
-          ReportIssueView(viewModel: viewModel) { success in
-            toastMessage = success ? "Success! Issue reported." : "Failed to report issue."
-            isIssueReported = true
-          }
+          ReportIssueView(viewModel: viewModel)
         }
-        .alert("Warning",
-               isPresented: $showDeleteAlert) {
-          Button("Cancel", role: .cancel) { }
-          Button("Yes, delete my account", role: .destructive) {
-            Task {
-              try? await viewModel.deleteAccount()
+        .sheet(isPresented: $showDeleteSheet) {
+          ZStack {
+            Color(.systemBackground).ignoresSafeArea()
+            VStack(spacing: 20) {
+              Image(systemName: "exclamationmark.circle.fill")
+                .font(.largeTitle)
+                .foregroundColor(.red)
+              
+              Text("Warning")
+                .font(.title2)
+                .fontWeight(.bold)
+              
+              Text("This action will permanently delete your account, including all user data and journal entries. To confirm, type \"DELETE\" below.")
+                .multilineTextAlignment(.center)
+              
+              TextField("Type 'DELETE' to confirm", text: $deleteConfirmationText)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .submitLabel(.done)
+                .onSubmit {
+                  // Don't do anything when enter is pressed
+                }
+              
+              HStack(spacing: 20) {
+                Button("Cancel") {
+                  deleteConfirmationText = ""
+                  showDeleteSheet = false
+                }
+                .buttonStyle(.bordered)
+                
+                Button("Delete Account") {
+                  Task {
+                    if deleteConfirmationText == "DELETE" {
+                      try? await viewModel.deleteAccount()
+                    }
+                    deleteConfirmationText = ""
+                  }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.red)
+                .disabled(deleteConfirmationText != "DELETE")
+              }
+              .padding(.top)
             }
+            .padding()
+            .frame(maxWidth: 350)
           }
-        } message: {
-          Text("This action will permanently delete your account, including all user data and journal entries. Are you sure you want to do this?")
         }
       } else {
         VStack(spacing: 12) {
@@ -99,19 +143,7 @@ struct ProfileView: View {
           await viewModel.fetchUser()
         }
       }
-      if isIssueReported {
-        ToastBanner(message: toastMessage,
-                    isSuccess: toastMessage.contains("Success"),
-                    duration: 5) {
-          withAnimation {
-            isIssueReported = false
-          }
-        }
-                    .zIndex(1)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-      }
     }
-    .animation(.spring(), value: isIssueReported)
   }
 }
 

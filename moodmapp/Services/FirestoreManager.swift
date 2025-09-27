@@ -141,7 +141,7 @@ class FirestoreManager {
     }
   }
   
-  // Deletes the top-level user document (does not delete auth account).
+  // Deletes the top-level user document (does not delete authViewModel account).
   func deleteUserDocument(uid: String) async throws {
     try await db.collection("users").document(uid).delete()
   }

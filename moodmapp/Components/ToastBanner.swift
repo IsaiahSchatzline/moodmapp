@@ -15,11 +15,13 @@ struct ToastBanner: View {
         Text(message)
       }
       .foregroundColor(.white)
-      .padding()
+      .padding(.vertical, 12)
+      .padding(.horizontal, 20)
       .background(isSuccess ? Color.green : Color.red)
-      .cornerRadius(16)
+      .clipShape(.capsule)
       .padding(.bottom, 40)
     }
+    .padding(.horizontal)
     .opacity(isVisible ? 1 : 0)
     .onAppear {
       DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
