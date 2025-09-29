@@ -2,156 +2,156 @@ import FirebaseFirestore
 import CoreLocation
 
 class FirestoreManager {
-  static let shared = FirestoreManager()
-  private let db = Firestore.firestore()
-  
-  func saveEntry(_ entry: JournalEntries, for userID: String) async throws {
-    let entryID = entry.id ?? UUID().uuidString
-    let entryRef = getUserJournalCollection(userID: userID).document(entryID)
+    static let shared = FirestoreManager()
+    private let db = Firestore.firestore()
     
-    let entryData: [String: Any] = [
-      "id": entryID,
-      "userID": entry.userID,
-      "moodTitle": entry.moodTitle,
-      "moodRating": entry.moodRating,
-      "entryThoughts": entry.entryThoughts,
-      "emoji": entry.emoji,
-      "dateOfEntry": Timestamp(date: entry.dateOfEntry),
-      "latitude": entry.latitude as Any,
-      "longitude": entry.longitude as Any
-    ]
-    
-    try await entryRef.setData(entryData, merge: true)
-  }
-  
-  func fetchEntries(
-    for userID: String,
-    sortByDate: Bool = true,
-    descending: Bool = true
-  ) async throws -> [JournalEntries] {
-    var query: Query = getUserJournalCollection(userID: userID)
-    
-    if sortByDate {
-      query = query.order(by: "dateOfEntry", descending: descending)
+    func saveEntry(_ entry: JournalEntries, for userID: String) async throws {
+        let entryID = entry.id ?? UUID().uuidString
+        let entryRef = getUserJournalCollection(userID: userID).document(entryID)
+        
+        let entryData: [String: Any] = [
+            "id": entryID,
+            "userID": entry.userID,
+            "moodTitle": entry.moodTitle,
+            "moodRating": entry.moodRating,
+            "entryThoughts": entry.entryThoughts,
+            "emoji": entry.emoji,
+            "dateOfEntry": Timestamp(date: entry.dateOfEntry),
+            "latitude": entry.latitude as Any,
+            "longitude": entry.longitude as Any
+        ]
+        
+        try await entryRef.setData(entryData, merge: true)
     }
     
-    let snapshot = try await query.getDocuments()
-    
-    return snapshot.documents.compactMap { document in
-      return parseJournalEntry(from: document)
-    }
-  }
-  
-  func fetchEntry(entryID: String, for userID: String) async throws -> JournalEntries {
-    let snapshot = try await getUserJournalCollection(userID: userID)
-      .document(entryID)
-      .getDocument()
-    
-    guard let data = snapshot.data() else {
-      throw FirestoreError.entryNotFound
-    }
-    
-    guard let entry = createEntry(from: data, documentID: snapshot.documentID) else {
-      throw FirestoreError.malformedData
+    func fetchEntries(
+        for userID: String,
+        sortByDate: Bool = true,
+        descending: Bool = true
+    ) async throws -> [JournalEntries] {
+        var query: Query = getUserJournalCollection(userID: userID)
+        
+        if sortByDate {
+            query = query.order(by: "dateOfEntry", descending: descending)
+        }
+        
+        let snapshot = try await query.getDocuments()
+        
+        return snapshot.documents.compactMap { document in
+            return parseJournalEntry(from: document)
+        }
     }
     
-    return entry
-  }
-  
-  func deleteEntry(entryID: String, for userID: String) async throws {
-    try await getUserJournalCollection(userID: userID)
-      .document(entryID)
-      .delete()
-  }
-  
-  func deleteAllEntries(for userID: String) async throws {
-    let collectionRef = getUserJournalCollection(userID: userID)
-    let snapshot = try await collectionRef.getDocuments()
-    
-    guard !snapshot.documents.isEmpty else { return }
-    
-    // Batch delete in chunks of 400 (Firestore limit is 500 operations)
-    let batchLimit = 400
-    var batch = db.batch()
-    var operationCount = 0
-    
-    for document in snapshot.documents {
-      batch.deleteDocument(document.reference)
-      operationCount += 1
-      
-      if operationCount == batchLimit {
-        try await batch.commit()
-        batch = db.batch()
-        operationCount = 0
-      }
+    func fetchEntry(entryID: String, for userID: String) async throws -> JournalEntries {
+        let snapshot = try await getUserJournalCollection(userID: userID)
+            .document(entryID)
+            .getDocument()
+        
+        guard let data = snapshot.data() else {
+            throw FirestoreError.entryNotFound
+        }
+        
+        guard let entry = createEntry(from: data, documentID: snapshot.documentID) else {
+            throw FirestoreError.malformedData
+        }
+        
+        return entry
     }
     
-    if operationCount > 0 {
-      try await batch.commit()
+    func deleteEntry(entryID: String, for userID: String) async throws {
+        try await getUserJournalCollection(userID: userID)
+            .document(entryID)
+            .delete()
     }
-  }
-  
-  // MARK: - User Document Management
-  
-  func deleteUserDocument(userID: String) async throws {
-    try await db.collection("users").document(userID).delete()
-  }
-  
-  // MARK: - Private Helper Methods
-  
-  private func getUserJournalCollection(userID: String) -> CollectionReference {
-    return db.collection("users")
-      .document(userID)
-      .collection("journalEntries")
-  }
-  
-  private func parseJournalEntry(from document: DocumentSnapshot) -> JournalEntries? {
-    let data = document.data() ?? [:]
-    return createEntry(from: data, documentID: document.documentID)
-  }
-  
-  private func createEntry(from data: [String: Any], documentID: String) -> JournalEntries? {
-    guard
-      let userID = data["userID"] as? String,
-      let moodTitle = data["moodTitle"] as? String,
-      let moodRating = data["moodRating"] as? Int,
-      let entryThoughts = data["entryThoughts"] as? String,
-      let emoji = data["emoji"] as? String
-    else { return nil }
     
-    let date = (data["dateOfEntry"] as? Timestamp)?.dateValue() ?? Date()
-    let latitude = data["latitude"] as? CLLocationDegrees
-    let longitude = data["longitude"] as? CLLocationDegrees
+    func deleteAllEntries(for userID: String) async throws {
+        let collectionRef = getUserJournalCollection(userID: userID)
+        let snapshot = try await collectionRef.getDocuments()
+        
+        guard !snapshot.documents.isEmpty else { return }
+        
+        // Batch delete in chunks of 400 (Firestore limit is 500 operations)
+        let batchLimit = 400
+        var batch = db.batch()
+        var operationCount = 0
+        
+        for document in snapshot.documents {
+            batch.deleteDocument(document.reference)
+            operationCount += 1
+            
+            if operationCount == batchLimit {
+                try await batch.commit()
+                batch = db.batch()
+                operationCount = 0
+            }
+        }
+        
+        if operationCount > 0 {
+            try await batch.commit()
+        }
+    }
     
-    return JournalEntries(
-      id: (data["id"] as? String) ?? documentID,
-      userID: userID,
-      moodTitle: moodTitle,
-      moodRating: moodRating,
-      entryThoughts: entryThoughts,
-      emoji: emoji,
-      dateOfEntry: date,
-      latitude: latitude,
-      longitude: longitude
-    )
-  }
+    // MARK: - User Document Management
+    
+    func deleteUserDocument(userID: String) async throws {
+        try await db.collection("users").document(userID).delete()
+    }
+    
+    // MARK: - Private Helper Methods
+    
+    private func getUserJournalCollection(userID: String) -> CollectionReference {
+        return db.collection("users")
+            .document(userID)
+            .collection("journalEntries")
+    }
+    
+    private func parseJournalEntry(from document: DocumentSnapshot) -> JournalEntries? {
+        let data = document.data() ?? [:]
+        return createEntry(from: data, documentID: document.documentID)
+    }
+    
+    private func createEntry(from data: [String: Any], documentID: String) -> JournalEntries? {
+        guard
+            let userID = data["userID"] as? String,
+            let moodTitle = data["moodTitle"] as? String,
+            let moodRating = data["moodRating"] as? Int,
+            let entryThoughts = data["entryThoughts"] as? String,
+            let emoji = data["emoji"] as? String
+        else { return nil }
+        
+        let date = (data["dateOfEntry"] as? Timestamp)?.dateValue() ?? Date()
+        let latitude = data["latitude"] as? CLLocationDegrees
+        let longitude = data["longitude"] as? CLLocationDegrees
+        
+        return JournalEntries(
+            id: (data["id"] as? String) ?? documentID,
+            userID: userID,
+            moodTitle: moodTitle,
+            moodRating: moodRating,
+            entryThoughts: entryThoughts,
+            emoji: emoji,
+            dateOfEntry: date,
+            latitude: latitude,
+            longitude: longitude
+        )
+    }
 }
 
 // MARK: - Custom Errors
 extension FirestoreManager {
-  enum FirestoreError: Error, LocalizedError {
-    case entryNotFound
-    case malformedData
-    
-    var errorDescription: String? {
-      switch self {
-      case .entryNotFound:
-        return "Journal entry not found"
-      case .malformedData:
-        return "Malformed journal entry data"
-      }
+    enum FirestoreError: Error, LocalizedError {
+        case entryNotFound
+        case malformedData
+        
+        var errorDescription: String? {
+            switch self {
+            case .entryNotFound:
+                return "Journal entry not found"
+            case .malformedData:
+                return "Malformed journal entry data"
+            }
+        }
     }
-  }
 }
 
 //import FirebaseFirestore
