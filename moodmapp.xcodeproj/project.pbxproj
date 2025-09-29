@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9530211D2E8B329600BA40F5 /* EmojiWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530211C2E8B327700BA40F5 /* EmojiWords.swift */; };
 		953472B22E80675B00F9FE24 /* ToastBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953472B12E80675600F9FE24 /* ToastBanner.swift */; };
 		95B2E0EE2E523ED200D323D9 /* JournalEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2E0ED2E523ECB00D323D9 /* JournalEntries.swift */; };
 		95B2E0F02E52411A00D323D9 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2E0EF2E52411700D323D9 /* FirestoreManager.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9530211C2E8B327700BA40F5 /* EmojiWords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiWords.swift; sourceTree = "<group>"; };
 		953472B12E80675600F9FE24 /* ToastBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastBanner.swift; sourceTree = "<group>"; };
 		95B2E0ED2E523ECB00D323D9 /* JournalEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntries.swift; sourceTree = "<group>"; };
 		95B2E0EF2E52411700D323D9 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 		D08A945F2D2B759100A1A87E /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9530211C2E8B327700BA40F5 /* EmojiWords.swift */,
 				953472B12E80675600F9FE24 /* ToastBanner.swift */,
 				D08A94602D2B75B400A1A87E /* InputView.swift */,
 				D08A94662D2B945C00A1A87E /* ButtonRow.swift */,
@@ -413,6 +416,7 @@
 				D0DFEAB82D1F49C7000EA52A /* MapStyleConfig.swift in Sources */,
 				D0DFEAB12D1F1A3F000EA52A /* MoodSwings.swift in Sources */,
 				95B2E0EE2E523ED200D323D9 /* JournalEntries.swift in Sources */,
+				9530211D2E8B329600BA40F5 /* EmojiWords.swift in Sources */,
 				D08A94632D2B870100A1A87E /* RegistrationView.swift in Sources */,
 				D06E8B752D2462CB003A6400 /* MoodRing.swift in Sources */,
 				D0DD53072D2CB896002A5941 /* AuthViewModel.swift in Sources */,
