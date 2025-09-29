@@ -60,13 +60,9 @@ struct NewMood: View {
                     .navigationTitle("mood thoughts")
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                isShowing = false
-                            } label: {
-                                Text("Close")
-                                    .font(.body.weight(.semibold))
-                            }
-                            .tint(.black)
+                            Button("Done") { isShowing = false }
+                                .fontWeight(.semibold)
+                                .tint(.black)
                         }
                     }
                 }
