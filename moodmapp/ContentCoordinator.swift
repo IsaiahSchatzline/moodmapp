@@ -1,43 +1,64 @@
 import SwiftUI
+import CoreLocation
 
 struct ContentCoordinator: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    @StateObject private var journalViewModel = JournalEntriesViewModel()
-    @State private var showProfile = false
+    @StateObject private var journalViewModel: JournalEntriesViewModel
+    
+    init() {
+        _journalViewModel = StateObject(wrappedValue: JournalEntriesViewModel(authViewModel: AuthViewModel.shared))
+    }
     
     var body: some View {
         ZStack {
-            Group {
-                if authViewModel.userSession != nil {
-                    TabView {
-                        NewMood(viewModel: journalViewModel)
-                            .tabItem {
-                                Image(systemName: "applepencil")
-                                Text("New Mood")
-                            }
-                        
-                        JournalPage(viewModel: journalViewModel)
-                            .tabItem {
-                                Image(systemName: "book")
-                                Text("Mood Journal")
-                            }
-                        
-                        MoodMap(viewModel: journalViewModel)
-                            .tabItem {
-                                Image(systemName: "map")
-                                Text("Mood Map")
-                            }
-                        
-                        MoodSwings(viewModel: journalViewModel)
-                            .tabItem {
-                                Image(systemName: "chart.pie.fill")
-                                Text("Mood Swings")
-                            }
-                    }
-                } else {
-                    LoginView()
-                }
+            mainContent
+            toastOverlay
+        }
+        .onAppear {
+            CLLocationManager().requestWhenInUseAuthorization()
+        }
+    }
+    
+    // MARK: - Content Views
+    
+    private var mainContent: some View {
+        Group {
+            if authViewModel.userSession != nil {
+                tabView
+            } else {
+                LoginView()
             }
+        }
+    }
+    
+    private var tabView: some View {
+        TabView {
+            NewMood(viewModel: journalViewModel)
+                .tabItem {
+                    Label("New Mood", systemImage: "applepencil")
+                }
+            
+            JournalPage(viewModel: journalViewModel)
+                .tabItem {
+                    Label("Mood Journal", systemImage: "book")
+                }
+            
+            MoodMap(viewModel: journalViewModel)
+                .tabItem {
+                    Label("Mood Map", systemImage: "map")
+                }
+            
+            MoodSwings(viewModel: journalViewModel)
+                .tabItem {
+                    Label("Mood Swings", systemImage: "chart.pie.fill")
+                }
+        }
+    }
+    
+    // MARK: - Toast Overlay
+    
+    private var toastOverlay: some View {
+        Group {
             if authViewModel.showToast, let message = authViewModel.toastMessage {
                 ToastBanner(
                     message: message,
@@ -49,8 +70,4 @@ struct ContentCoordinator: View {
             }
         }
     }
-}
-
-#Preview {
-    ContentCoordinator()
 }

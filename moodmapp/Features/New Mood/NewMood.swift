@@ -75,9 +75,6 @@ struct NewMood: View {
             .presentationDragIndicator(.visible)
         }
         .ignoresSafeArea()
-        .onAppear {
-            CLLocationManager().requestWhenInUseAuthorization()
-        }
     }
     
     private var moodTitleTextField: some View {
