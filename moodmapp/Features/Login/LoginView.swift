@@ -22,12 +22,13 @@ struct LoginView: View {
                         InputView(text: $email,
                                   title: "Email Address",
                                   placeholder: "name@example.com")
-                        .textInputAutocapitalization(.none)
+                        .textInputAutocapitalization(.never)
                         
                         InputView(text: $password,
                                   title: "Password",
                                   placeholder: "Enter your password",
                                   isSecureField: true)
+                        .textInputAutocapitalization(.never)
                     }
                     .padding(.horizontal)
                     .offset(x: 0, y: -100)
@@ -78,10 +79,20 @@ struct LoginView: View {
 
 extension LoginView: AuthenticationFormProtocol {
     var formIsValid: Bool {
-        return !email.isEmpty
-        && email.contains("@")
-        && !password.isEmpty
-        && password.count > 5
+        return isValidEmail(email) && isValidPassword(password)
+    }
+    
+    private func isValidEmail(_ email: String) -> Bool {
+        let emailRegex = #"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"#
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        return !email.isEmpty && emailPredicate.evaluate(with: email)
+    }
+    
+    private func isValidPassword(_ password: String) -> Bool {
+        // Password requirements: minimum 8 characters with at least one letter and one number
+        let passwordRegex = #"^(?=.*[A-Za-z])(?=.*\d).{8,}$"#
+        let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+        return !password.isEmpty && passwordPredicate.evaluate(with: password)
     }
 }
 
